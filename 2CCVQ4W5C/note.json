@@ -1,0 +1,1187 @@
+{
+  "paragraphs": [
+    {
+      "title": "",
+      "text": "%md\n## Colaborative filtering, a technique for recommender systems.\nAlternating Least Squares(ALS): Matrix Factorization technique. Implemented in MLlib: org.apache.spark.ml.recommendation.ALS - DataFrame based-API",
+      "dateUpdated": "Mar 23, 2017 12:00:12 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1489746839334_389702131",
+      "id": "20170317-113359_484437457",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch2\u003eColaborative filtering, a technique for recommender systems.\u003c/h2\u003e\n\u003cp\u003eAlternating Least Squares(ALS): Matrix Factorization technique. Implemented in MLlib: org.apache.spark.ml.recommendation.ALS - DataFrame based-API\u003c/p\u003e\n"
+      },
+      "dateCreated": "Mar 17, 2017 11:33:59 AM",
+      "dateStarted": "Mar 23, 2017 11:37:17 AM",
+      "dateFinished": "Mar 23, 2017 11:37:21 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "// This is the example taken from https://spark.apache.org/docs/latest/ml-collaborative-filtering.html\nimport org.apache.spark.ml.evaluation.RegressionEvaluator\nimport org.apache.spark.ml.recommendation._\n\ncase class Ratings(userId: Int, movieId: Int, rating: Int, timestamp: Long)\ndef parseRating(str: String): Ratings \u003d {\n  val fields \u003d str.split(\"::\")\n  assert(fields.size \u003d\u003d 4)\n  Ratings(fields(0).toInt, fields(1).toInt, fields(2).toInt, fields(3).toLong)\n}\n\nval ratings \u003d spark.read.textFile(\"../sparkAnalytics/ALS/movielens.txt\")\n  .map(parseRating)\n  .toDF()\nval Array(training, test) \u003d ratings.randomSplit(Array(0.8, 0.2))\n\n// Build the recommendation model using ALS on the training data\nval als \u003d new ALS()\n  .setMaxIter(10)\n  .setUserCol(\"userId\")\n  .setItemCol(\"movieId\")\n  .setRatingCol(\"rating\")\nval model \u003d als.fit(training)\n\n// Evaluate the model by computing the RMSE on the test data\nval predictions \u003d model.transform(test)\n\nval evaluator \u003d new RegressionEvaluator()\n  .setMetricName(\"rmse\")\n  .setLabelCol(\"rating\")\n  .setPredictionCol(\"prediction\")\nval rmse \u003d evaluator.evaluate(predictions)\nprintln(s\"Root-mean-square error \u003d $rmse\")",
+      "dateUpdated": "Mar 23, 2017 11:37:17 AM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1489747462724_217055500",
+      "id": "20170317-114422_919301888",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nimport org.apache.spark.ml.evaluation.RegressionEvaluator\n\nimport org.apache.spark.ml.recommendation._\n\ndefined class Ratings\n\nparseRating: (str: String)Ratings\n\nratings: org.apache.spark.sql.DataFrame \u003d [userId: int, movieId: int ... 2 more fields]\n\n\ntraining: org.apache.spark.sql.Dataset[org.apache.spark.sql.Row] \u003d [userId: int, movieId: int ... 2 more fields]\ntest: org.apache.spark.sql.Dataset[org.apache.spark.sql.Row] \u003d [userId: int, movieId: int ... 2 more fields]\n\nals: org.apache.spark.ml.recommendation.ALS \u003d als_502b9b42c534\n\nmodel: org.apache.spark.ml.recommendation.ALSModel \u003d als_502b9b42c534\n\npredictions: org.apache.spark.sql.DataFrame \u003d [userId: int, movieId: int ... 3 more fields]\n\nevaluator: org.apache.spark.ml.evaluation.RegressionEvaluator \u003d regEval_1d8c99721361\n\nrmse: Double \u003d 0.9856771932128537\nRoot-mean-square error \u003d 0.9856771932128537\n"
+      },
+      "dateCreated": "Mar 17, 2017 11:44:22 AM",
+      "dateStarted": "Mar 23, 2017 11:37:18 AM",
+      "dateFinished": "Mar 23, 2017 11:37:54 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\nThe results were obtained using the defalut parameters for ALS. Spark provides a way to perform model tunning using Cross Validation.",
+      "dateUpdated": "Mar 23, 2017 12:00:33 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1490262127681_1263564284",
+      "id": "20170323-104207_478924807",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003eThe results were obtained using the defalut parameters for ALS. Spark provides a way to perform model tunning using Cross Validation.\u003c/p\u003e\n"
+      },
+      "dateCreated": "Mar 23, 2017 10:42:07 AM",
+      "dateStarted": "Mar 23, 2017 11:37:21 AM",
+      "dateFinished": "Mar 23, 2017 11:37:21 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// Designing a \"grid\" of parameters to tune the algorithm\nimport org.apache.spark.ml.tuning.{CrossValidator, ParamGridBuilder}\nval paramGrid \u003d new ParamGridBuilder()\n  .addGrid(als.rank, Array(10,20,50))\n  .addGrid(als.regParam, Array(0.1, 0.01))\n  .build()",
+      "dateUpdated": "Mar 23, 2017 11:37:19 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1490261022789_-1018378677",
+      "id": "20170323-102342_883996595",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nimport org.apache.spark.ml.tuning.{CrossValidator, ParamGridBuilder}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nparamGrid: Array[org.apache.spark.ml.param.ParamMap] \u003d\nArray({\n\tals_502b9b42c534-rank: 10,\n\tals_502b9b42c534-regParam: 0.1\n}, {\n\tals_502b9b42c534-rank: 10,\n\tals_502b9b42c534-regParam: 0.01\n}, {\n\tals_502b9b42c534-rank: 20,\n\tals_502b9b42c534-regParam: 0.1\n}, {\n\tals_502b9b42c534-rank: 20,\n\tals_502b9b42c534-regParam: 0.01\n}, {\n\tals_502b9b42c534-rank: 50,\n\tals_502b9b42c534-regParam: 0.1\n}, {\n\tals_502b9b42c534-rank: 50,\n\tals_502b9b42c534-regParam: 0.01\n})\n"
+      },
+      "dateCreated": "Mar 23, 2017 10:23:42 AM",
+      "dateStarted": "Mar 23, 2017 11:37:21 AM",
+      "dateFinished": "Mar 23, 2017 11:37:56 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// Create a Cross Validator to tune the als using the evaluator with paramGrid parameters.\nval cv \u003d new CrossValidator()\n  .setEstimator(als)\n  .setEvaluator(evaluator)\n  .setEstimatorParamMaps(paramGrid)\n  .setNumFolds(3) ",
+      "dateUpdated": "Mar 23, 2017 11:37:21 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1490261809240_1927380375",
+      "id": "20170323-103649_1368064445",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\ncv: org.apache.spark.ml.tuning.CrossValidator \u003d cv_f13651e1e4b4\n"
+      },
+      "dateCreated": "Mar 23, 2017 10:36:49 AM",
+      "dateStarted": "Mar 23, 2017 11:37:55 AM",
+      "dateFinished": "Mar 23, 2017 11:37:57 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// Training the models.\nval cvModel \u003d cv.fit(training)",
+      "dateUpdated": "Mar 23, 2017 11:37:22 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1490261882326_1483688272",
+      "id": "20170323-103802_844151283",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\ncvModel: org.apache.spark.ml.tuning.CrossValidatorModel \u003d cv_f13651e1e4b4\n"
+      },
+      "dateCreated": "Mar 23, 2017 10:38:02 AM",
+      "dateStarted": "Mar 23, 2017 11:37:57 AM",
+      "dateFinished": "Mar 23, 2017 11:45:12 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// Parameters and rmse for each values map\nval estimatorParamsMap \u003d  cvModel.getEstimatorParamMaps\n                            .zip(cvModel.avgMetrics)\n// Best parameters (min rmse)\nval bestEstimatorParamMap \u003d estimatorParamsMap\n                            .minBy(_._2)\n                            ._1",
+      "dateUpdated": "Mar 23, 2017 11:37:24 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1490263610052_-933068998",
+      "id": "20170323-110650_971210161",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nestimatorParamsMap: Array[(org.apache.spark.ml.param.ParamMap, Double)] \u003d\nArray(({\n\tals_502b9b42c534-rank: 10,\n\tals_502b9b42c534-regParam: 0.1\n},1.216312833081394), ({\n\tals_502b9b42c534-rank: 10,\n\tals_502b9b42c534-regParam: 0.01\n},2.259365609167411), ({\n\tals_502b9b42c534-rank: 20,\n\tals_502b9b42c534-regParam: 0.1\n},1.2012662412515298), ({\n\tals_502b9b42c534-rank: 20,\n\tals_502b9b42c534-regParam: 0.01\n},1.5923436019113588), ({\n\tals_502b9b42c534-rank: 50,\n\tals_502b9b42c534-regParam: 0.1\n},1.1988172526190537), ({\n\tals_502b9b42c534-rank: 50,\n\tals_502b9b42c534-regParam: 0.01\n},1.5309143996397))\n\n\n\n\n\nbestEstimatorParamMap: org.apache.spark.ml.param.ParamMap \u003d\n{\n\tals_502b9b42c534-rank: 50,\n\tals_502b9b42c534-regParam: 0.1\n}\n"
+      },
+      "dateCreated": "Mar 23, 2017 11:06:50 AM",
+      "dateStarted": "Mar 23, 2017 11:37:58 AM",
+      "dateFinished": "Mar 23, 2017 11:45:14 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// bestModel allows to get the best model encountered\nval bestModel \u003d cvModel.bestModel\n// The models also could be saved...\nmodel.save(\"../sparkAnalytics/ALS/alsBest\")\n// ... and loaded to make recommendations. This is very useful and necessary to production environments.\nval sameModel \u003d ALSModel.load(\"../sparkAnalytics/ALS/alsm\")\n",
+      "dateUpdated": "Mar 23, 2017 11:37:25 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1490261925037_-1664899156",
+      "id": "20170323-103845_536414081",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nbestModel: org.apache.spark.ml.Model[_] \u003d als_502b9b42c534\n\nsameModel: org.apache.spark.ml.recommendation.ALSModel \u003d als_cc62317361c1\n"
+      },
+      "dateCreated": "Mar 23, 2017 10:38:45 AM",
+      "dateStarted": "Mar 23, 2017 11:45:12 AM",
+      "dateFinished": "Mar 23, 2017 11:45:22 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "%md\nThis dataset contains rating from users with id\u0027s beteen 0 and 29 and movies with id between 0 and 99. Whats happen with examples not included in the dataset??",
+      "dateUpdated": "Mar 23, 2017 12:01:14 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "editorMode": "ace/mode/markdown",
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1489768554898_-250537228",
+      "id": "20170317-173554_1678408879",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003eThis dataset contains rating from users with id\u0027s beteen 0 and 29 and movies with id between 0 and 99. Whats happen with examples not included in the dataset??\u003c/p\u003e\n"
+      },
+      "dateCreated": "Mar 17, 2017 5:35:54 AM",
+      "dateStarted": "Mar 23, 2017 11:37:28 AM",
+      "dateFinished": "Mar 23, 2017 11:37:28 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": " // New examples\n case class Examples(userId: Int, movieId: Int)\n val userExamples \u003d sc.parallelize(Array(Examples(29,6),    // Case1: user included movie included\n                                        Examples(29,201),   // Case2: user included new movie\n                                        Examples(33,6)))    // Case3: new user movie included\n                                        .toDF(\"userId\",\"movieId\")\n// Results predicted by the model\nval newPredictions \u003d model.transform(userExamples)\nnewPredictions.show()",
+      "dateUpdated": "Mar 23, 2017 11:37:28 AM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1489764391034_546981838",
+      "id": "20170317-162631_1957265226",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\ndefined class Examples\n\nuserExamples: org.apache.spark.sql.DataFrame \u003d [userId: int, movieId: int]\n\nnewPredictions: org.apache.spark.sql.DataFrame \u003d [userId: int, movieId: int ... 1 more field]\n+------+-------+----------+\n|userId|movieId|prediction|\n+------+-------+----------+\n|    29|      6| 1.3540146|\n|    33|      6|       NaN|\n|    29|    201|       NaN|\n+------+-------+----------+\n\n"
+      },
+      "dateCreated": "Mar 17, 2017 4:26:31 AM",
+      "dateStarted": "Mar 23, 2017 11:45:15 AM",
+      "dateFinished": "Mar 23, 2017 11:45:36 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "%md \nAs expected, the method can not find possible ratings for cases 2 and 3. These cases contain information that is not included in the model. It is necesary to stablish a policy to re-train the model and, meanwhile to recommend the movies with a \"highest score\" approach (for example) to the users not included in the model.\nThe previous mllib API to work with RDDs contain method to know how the best X recommendations to a given user. Let\u0027s try to reproduce this functionality. ",
+      "dateUpdated": "Mar 23, 2017 12:01:35 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1489768667148_-1475238950",
+      "id": "20170317-173747_1138493908",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003eAs expected, the method can not find possible ratings for cases 2 and 3. These cases contain information that is not included in the model. It is necesary to stablish a policy to re-train the model and, meanwhile to recommend the movies with a \u0026ldquo;highest score\u0026rdquo; approach (for example) to the users not included in the model.\n\u003cbr  /\u003eThe previous mllib API to work with RDDs contain method to know how the best X recommendations to a given user. Let\u0027s try to reproduce this functionality.\u003c/p\u003e\n"
+      },
+      "dateCreated": "Mar 17, 2017 5:37:47 AM",
+      "dateStarted": "Mar 23, 2017 11:37:31 AM",
+      "dateFinished": "Mar 23, 2017 11:37:31 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "// Selecting the user with less movies rated\nratings.registerTempTable(\"ratings\")\nval ratingByUser \u003d sqlContext.sql(\"select userId, count(*) as numMovies from ratings group by userId order by numMovies asc\")\nratingByUser.show()\n",
+      "dateUpdated": "Mar 23, 2017 11:37:31 AM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1489768220008_25298206",
+      "id": "20170317-173020_1702186488",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nwarning: there was one deprecation warning; re-run with -deprecation for details\n\nratingByUser: org.apache.spark.sql.DataFrame \u003d [userId: int, numMovies: bigint]\n+------+---------+\n|userId|numMovies|\n+------+---------+\n|    10|       44|\n|    16|       45|\n|    25|       46|\n|    29|       46|\n|    27|       46|\n|    17|       46|\n|     2|       46|\n|    20|       47|\n|    21|       48|\n|    15|       48|\n|     3|       48|\n|    13|       48|\n|     1|       49|\n|     8|       49|\n|    19|       49|\n|    26|       49|\n|     0|       49|\n|     5|       49|\n|    28|       50|\n|    23|       52|\n+------+---------+\nonly showing top 20 rows\n\n"
+      },
+      "dateCreated": "Mar 17, 2017 5:30:20 AM",
+      "dateStarted": "Mar 23, 2017 11:45:23 AM",
+      "dateFinished": "Mar 23, 2017 11:45:44 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "val moviesRated \u003d sqlContext.sql(\"select movieId from ratings where userId \u003d 10\")\nval allMoviesId \u003d sqlContext.sql(\"select distinct movieId from ratings\")\nval notRated \u003d allMoviesId.except(moviesRated)\n                .map(id \u003d\u003e Examples(10,id.getAs[Int](\"movieId\")))\n\nval predictionsUser10 \u003d model.transform(notRated).orderBy(desc(\"prediction\")).take(3)",
+      "dateUpdated": "Mar 23, 2017 12:03:37 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1489784516315_-1471437875",
+      "id": "20170317-220156_1167101512",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nmoviesRated: org.apache.spark.sql.DataFrame \u003d [movieId: int]\n\nallMoviesId: org.apache.spark.sql.DataFrame \u003d [movieId: int]\n\nnotRated: org.apache.spark.sql.Dataset[Examples] \u003d [userId: int, movieId: int]\n\npredictionsUser10: Array[org.apache.spark.sql.Row] \u003d Array([10,92,3.3499653], [10,9,2.8524225], [10,81,2.7788434])\n"
+      },
+      "dateCreated": "Mar 17, 2017 10:01:56 AM",
+      "dateStarted": "Mar 23, 2017 11:45:36 AM",
+      "dateFinished": "Mar 23, 2017 11:46:06 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "%md\nThe array predictionsUser10 contains the predicted rating per movie, ordering the array allows to know the movies to be recommended to the user.\nThis is an example of explicit recommendation since the users rating are considered to traind the model with ALS.",
+      "dateUpdated": "Mar 23, 2017 12:02:36 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1490026563962_-1694983983",
+      "id": "20170320-171603_1385808792",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003eThe array predictionsUser10 contains the predicted rating per movie, ordering the array allows to know the movies to be recommended to the user.\n\u003cbr  /\u003eThis is an example of explicit recommendation since the users rating are considered to traind the model with ALS.\u003c/p\u003e\n"
+      },
+      "dateCreated": "Mar 20, 2017 5:16:03 AM",
+      "dateStarted": "Mar 23, 2017 11:37:35 AM",
+      "dateFinished": "Mar 23, 2017 11:37:35 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "%md\nThe ALS algorithm also provides the possibility to obtain model with an implicit feedback. The example below follows the propose given in Chapter 3 of the [Advanced Analytics with Spark](http://shop.oreilly.com/product/0636920035091.do) but using the DataFrame based API.\nThe file user_artist_data.txt contains the userID, the artistID and the times that a user plays a song of the corresponding artist.",
+      "dateUpdated": "Mar 23, 2017 12:02:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1489772930695_1659624448",
+      "id": "20170317-184850_1557752675",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003eThe ALS algorithm also provides the possibility to obtain model with an implicit feedback. The example below follows the propose given in Chapter 3 of the \u003ca href\u003d\"http://shop.oreilly.com/product/0636920035091.do\"\u003eAdvanced Analytics with Spark\u003c/a\u003e but using the DataFrame based API.\n\u003cbr  /\u003eThe file user_artist_data.txt contains the userID, the artistID and the times that a user plays a song of the corresponding artist.\u003c/p\u003e\n"
+      },
+      "dateCreated": "Mar 17, 2017 6:48:50 AM",
+      "dateStarted": "Mar 23, 2017 11:37:36 AM",
+      "dateFinished": "Mar 23, 2017 11:37:36 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "// Loading data file.\nval rawUsersArtistData \u003d sc.textFile(\"../sparkAnalytics/ALS/profiledata_06-May-2005/user_artist_data.txt\")",
+      "dateUpdated": "Mar 23, 2017 11:37:36 AM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1489596027457_350150719",
+      "id": "20170315-174027_1484815484",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nrawUsersArtistData: org.apache.spark.rdd.RDD[String] \u003d ../sparkAnalytics/ALS/profiledata_06-May-2005/user_artist_data.txt MapPartitionsRDD[10855] at textFile at \u003cconsole\u003e:46\n"
+      },
+      "dateCreated": "Mar 15, 2017 5:40:27 AM",
+      "dateStarted": "Mar 23, 2017 11:45:45 AM",
+      "dateFinished": "Mar 23, 2017 11:46:07 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "// ALS only allows integer IDs smaller than 2147 millions\n// Check stats to know the values min and max of the IDs\nrawUsersArtistData.map(_.split(\u0027 \u0027)(0).toDouble).stats()\nrawUsersArtistData.map(_.split(\u0027 \u0027)(1).toDouble).stats()",
+      "dateUpdated": "Mar 23, 2017 11:37:38 AM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1489596141303_253715019",
+      "id": "20170315-174221_1080129623",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nres63: org.apache.spark.util.StatCounter \u003d (count: 24296858, mean: 1947573,265353, stdev: 496000,544975, max: 2443548,000000, min: 90,000000)\n\nres64: org.apache.spark.util.StatCounter \u003d (count: 24296858, mean: 1718704,093757, stdev: 2539389,040171, max: 10794401,000000, min: 1,000000)\n"
+      },
+      "dateCreated": "Mar 15, 2017 5:42:21 AM",
+      "dateStarted": "Mar 23, 2017 11:46:07 AM",
+      "dateFinished": "Mar 23, 2017 11:46:46 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "// rawArtistData contains the artistID and the name.\nval rawArtistData \u003d sc.textFile(\"../sparkAnalytics/ALS/profiledata_06-May-2005/artist_data.txt\")\n/*val artistByID \u003d rawArtistData.map{line \u003d\u003e\n    val (id, name) \u003d line.span(_ !\u003d \u0027\\t\u0027)\n    (id.toInt, name.trim)\n}*/\nval artistByID \u003d rawArtistData.map{line \u003d\u003e \n    val (id,name) \u003d line.span(_ !\u003d \u0027\\t\u0027)\n    if (name.isEmpty){\n        None\n    } else{\n        try{\n            Some((id.toInt, name.trim))\n        } catch{\n            case e: NumberFormatException \u003d\u003e None\n        }\n    }\n}.toDF(\"artistID\", \"name\")\n",
+      "dateUpdated": "Mar 23, 2017 11:37:39 AM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1489596362856_-810794887",
+      "id": "20170315-174602_191989901",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\n\nrawArtistData: org.apache.spark.rdd.RDD[String] \u003d ../sparkAnalytics/ALS/profiledata_06-May-2005/artist_data.txt MapPartitionsRDD[10861] at textFile at \u003cconsole\u003e:46\nartistByID: org.apache.spark.sql.DataFrame \u003d [artistID: int, name: string]\n"
+      },
+      "dateCreated": "Mar 15, 2017 5:46:02 AM",
+      "dateStarted": "Mar 23, 2017 11:46:07 AM",
+      "dateFinished": "Mar 23, 2017 11:46:48 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "// rawArtisAlias contains the artistID ans possible known alias: \nval rawArtistAlias \u003d sc.textFile(\"../sparkAnalytics/ALS/profiledata_06-May-2005/artist_alias.txt\")\nval artistAlias \u003d rawArtistAlias.flatMap{ line \u003d\u003e\n    val tokens \u003d line.split(\u0027\\t\u0027)\n    if (tokens(0).isEmpty){\n        None\n    } else {\n        Some(tokens(0).toInt, tokens(1).toInt)\n    }\n}.collectAsMap()",
+      "dateUpdated": "Mar 23, 2017 11:37:41 AM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1489596916131_1972879253",
+      "id": "20170315-175516_458025753",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nrawArtistAlias: org.apache.spark.rdd.RDD[String] \u003d ../sparkAnalytics/ALS/profiledata_06-May-2005/artist_alias.txt MapPartitionsRDD[10865] at textFile at \u003cconsole\u003e:46\nartistAlias: scala.collection.Map[Int,Int] \u003d Map(6803336 -\u003e 1000010, 6663187 -\u003e 1992, 2124273 -\u003e 2814, 10412283 -\u003e 1010353, 9969191 -\u003e 1320354, 2024757 -\u003e 1001941, 10208201 -\u003e 4605, 2139121 -\u003e 1011083, 1186393 -\u003e 78, 2094504 -\u003e 1012167, 9931106 -\u003e 1000289, 2167517 -\u003e 2060894, 1351735 -\u003e 1266817, 6943682 -\u003e 1003342, 2027368 -\u003e 1000024, 2056419 -\u003e 1020783, 1214789 -\u003e 1001066, 1022944 -\u003e 1004983, 6640739 -\u003e 1010367, 6902331 -\u003e 411, 10303141 -\u003e 82, 10029249 -\u003e 2070, 7001129 -\u003e 739, 6627784 -\u003e 1046699, 1113560 -\u003e 1275800, 2155414 -\u003e 1000790, 1291139 -\u003e 4163, 10061700 -\u003e 831, 1043158 -\u003e 1301875, 10294241 -\u003e 1234737, 9991298 -\u003e 1001419, 9965450 -\u003e 1016520, 6800447 -\u003e 1078506, 1042440 -\u003e 304, 1068288 -\u003e 1001417, 6729982 -\u003e 1809, 1138035 -\u003e 1406, 1278247 -\u003e 1239248, 1115453 -\u003e 3824, 7035536 -\u003e 3..."
+      },
+      "dateCreated": "Mar 15, 2017 5:55:16 AM",
+      "dateStarted": "Mar 23, 2017 11:46:47 AM",
+      "dateFinished": "Mar 23, 2017 11:46:52 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "// Share artist alias with all nodes in the cluster\nval bArtistAlias \u003d sc.broadcast(artistAlias)\n// Keep only one Id per artist\ncase class Rating(user: Int, product: Int, rating: Int)\nval trainData \u003d rawUsersArtistData.map{ line \u003d\u003e\n    val Array(userID, artistID, count) \u003d line.split(\u0027 \u0027).map(_.toInt)\n    val finalArtistID \u003d bArtistAlias.value.getOrElse(artistID, artistID)\n    Rating(userID, finalArtistID, count)\n}\n\n// I\u0027m taking a sample only for memory reasons.\nval sampleSize \u003d 800000\nval dataReduced \u003d sc.parallelize(trainData.takeSample(false, sampleSize, 2345677)).toDF().cache()\n",
+      "dateUpdated": "Mar 23, 2017 11:37:42 AM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1489597456593_2930947",
+      "id": "20170315-180416_758588511",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nbArtistAlias: org.apache.spark.broadcast.Broadcast[scala.collection.Map[Int,Int]] \u003d Broadcast(1531)\n\ndefined class Rating\n\ntrainData: org.apache.spark.rdd.RDD[Rating] \u003d MapPartitionsRDD[10867] at map at \u003cconsole\u003e:55\n\nsampleSize: Int \u003d 800000\n\ndataReduced: org.apache.spark.sql.Dataset[org.apache.spark.sql.Row] \u003d [user: int, product: int ... 1 more field]\n"
+      },
+      "dateCreated": "Mar 15, 2017 6:04:16 AM",
+      "dateStarted": "Mar 23, 2017 11:46:48 AM",
+      "dateFinished": "Mar 23, 2017 11:48:52 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "// Set parameters and create the model\nval als \u003d new ALS()\n    .setRank(10)\n    .setMaxIter(10)\n    .setImplicitPrefs(true)\n    .setAlpha(1.0)\n    .setRegParam(0.01)\n    .setUserCol(\"user\")\n    .setItemCol(\"product\")\n    .setRatingCol(\"rating\")\nval model \u003d als.fit(dataReduced)",
+      "dateUpdated": "Mar 23, 2017 11:37:43 AM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1490009413161_-2085252957",
+      "id": "20170320-123013_1625224856",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nals: org.apache.spark.ml.recommendation.ALS \u003d als_f3a3f13d9337\n\nmodel: org.apache.spark.ml.recommendation.ALSModel \u003d als_f3a3f13d9337\n"
+      },
+      "dateCreated": "Mar 20, 2017 12:30:13 PM",
+      "dateStarted": "Mar 23, 2017 11:46:52 AM",
+      "dateFinished": "Mar 23, 2017 11:50:29 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "// Taking one userID to make recommendations\nval userID \u003d dataReduced.first()(0).asInstanceOf[Int]",
+      "dateUpdated": "Mar 23, 2017 11:37:46 AM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1490022232878_-1885596079",
+      "id": "20170320-160352_527092971",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nuserID: Int \u003d 2411697\n"
+      },
+      "dateCreated": "Mar 20, 2017 4:03:52 AM",
+      "dateStarted": "Mar 23, 2017 11:50:29 AM",
+      "dateFinished": "Mar 23, 2017 11:50:33 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "dataReduced.createOrReplaceTempView(\"dataReduced\")\nval artistListened \u003d sqlContext.sql(s\"select product from dataReduced where user \u003d $userID\")\nval allArtistId \u003d sqlContext.sql(\"select distinct product from dataReduced\")\ncase class RatingEx(user: Int, product: Int)\nval notListened \u003d allArtistId.except(artistListened)\n                .map(id \u003d\u003e RatingEx(userID,id.getAs[Int](\"product\")))\n// Get the top 3 recommendations for the selected user\nval predictionsUser \u003d model.transform(notListened).filter(\u0027prediction !\u003d\u003d Double.NaN).orderBy(desc(\"prediction\")).take(3)",
+      "dateUpdated": "Mar 23, 2017 11:37:47 AM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1490010115800_-1620293517",
+      "id": "20170320-124155_765425825",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nartistListened: org.apache.spark.sql.DataFrame \u003d [product: int]\n\nallArtistId: org.apache.spark.sql.DataFrame \u003d [product: int]\n\ndefined class RatingEx\n\nnotListened: org.apache.spark.sql.Dataset[RatingEx] \u003d [user: int, product: int]\n\nwarning: there was one deprecation warning; re-run with -deprecation for details\n\npredictionsUser: Array[org.apache.spark.sql.Row] \u003d Array([2411697,979,0.04471677], [2411697,1000113,0.039583724], [2411697,1000591,0.037309233])\n"
+      },
+      "dateCreated": "Mar 20, 2017 12:41:55 PM",
+      "dateStarted": "Mar 23, 2017 11:50:30 AM",
+      "dateFinished": "Mar 23, 2017 11:53:36 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "//  Printing the artists listened by the selected user \nval artistListen \u003d artistListened.collect()\nfor (p \u003c-  artistListen){\n    println(artistByID.filter(\u0027artistID \u003d\u003d\u003d p(0)).collect()(0)(1))\n}",
+      "dateUpdated": "Mar 23, 2017 11:37:49 AM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1490018289433_957878370",
+      "id": "20170320-145809_963675752",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nartistListen: Array[org.apache.spark.sql.Row] \u003d Array([1034011], [1190660], [1232957], [1023654], [1025991])\nShrink\nEsionjim\nT.A.S.C.\nPsysex\nTransdriver\n"
+      },
+      "dateCreated": "Mar 20, 2017 2:58:09 AM",
+      "dateStarted": "Mar 23, 2017 11:50:34 AM",
+      "dateFinished": "Mar 23, 2017 11:54:15 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "// Printing the recommendations\nfor (p \u003c-  predictionsUser){\n    println(artistByID.filter(\u0027artistId \u003d\u003d\u003d p(1)).collect()(0)(1))\n}",
+      "dateUpdated": "Mar 23, 2017 11:37:50 AM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1490018045652_-587107044",
+      "id": "20170320-145405_834976731",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "Radiohead\nThe Beatles\nThe Chemical Brothers\n"
+      },
+      "dateCreated": "Mar 20, 2017 2:54:05 AM",
+      "dateStarted": "Mar 23, 2017 11:53:37 AM",
+      "dateFinished": "Mar 23, 2017 11:54:32 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "",
+      "dateUpdated": "Mar 23, 2017 11:38:07 AM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "results": [],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1490029793442_1085051749",
+      "id": "20170320-180953_466526885",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Mar 20, 2017 6:09:53 AM",
+      "dateStarted": "Mar 23, 2017 11:55:22 AM",
+      "dateFinished": "Mar 23, 2017 11:55:22 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "ALS",
+  "id": "2CCVQ4W5C",
+  "angularObjects": {
+    "2C5FFECRU:shared_process": [],
+    "2C93JP36N:shared_process": [],
+    "2C7JTTY82:shared_process": [],
+    "2C8EJEW8Y:shared_process": [],
+    "2C8ERSTAS:shared_process": [],
+    "2C7KRVW4Q:shared_process": [],
+    "2C96N7S5N:shared_process": [],
+    "2C86162WT:shared_process": [],
+    "2C8M8DRJ9:shared_process": [],
+    "2C7ZDDEB5:shared_process": [],
+    "2C71KN9GQ:shared_process": [],
+    "2C7QNFVBF:shared_process": [],
+    "2C5GADVTS:shared_process": [],
+    "2C8UHUXRM:shared_process": [],
+    "2C8JAU3WE:shared_process": [],
+    "2C6S5PRJH:shared_process": [],
+    "2C95CZY97:shared_process": [],
+    "2C72K2MPN:shared_process": []
+  },
+  "config": {},
+  "info": {}
+}
