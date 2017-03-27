@@ -1,0 +1,530 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md\n### Topic Modeling with LDA\nThe data consist on a set of articles of the BBC site obtained by [scraping](https://github.com/juliettm/scrapy). ",
+      "dateUpdated": "Mar 27, 2017 6:20:10 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1490287308639_998800981",
+      "id": "20170323-174148_177317355",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eTopic Modeling with LDA\u003c/h3\u003e\n\u003cp\u003eThe data consist on a set of articles of the BBC site obtained by \u003ca href\u003d\"https://github.com/juliettm/scrapy\"\u003escraping\u003c/a\u003e.\u003c/p\u003e\n"
+      },
+      "dateCreated": "Mar 23, 2017 5:41:48 AM",
+      "dateStarted": "Mar 27, 2017 6:20:11 PM",
+      "dateFinished": "Mar 27, 2017 6:20:13 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.ml.feature.{RegexTokenizer}\nimport org.apache.spark.sql._\n\n// Load documents from text files, 1 document per file\nval files \u003d sc.wholeTextFiles(\"../Articles/*.txt\")\nval corpus \u003d files.toDF(\"docPath\",\"document\").withColumn(\"docID\", monotonically_increasing_id()) \n",
+      "dateUpdated": "Mar 27, 2017 6:20:11 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1490268911257_-1021010696",
+      "id": "20170323-123511_209362252",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nimport org.apache.spark.ml.feature.RegexTokenizer\n\nimport org.apache.spark.sql._\n\nfiles: org.apache.spark.rdd.RDD[(String, String)] \u003d ../Articles/*.txt MapPartitionsRDD[1] at wholeTextFiles at \u003cconsole\u003e:31\n\ncorpus: org.apache.spark.sql.DataFrame \u003d [docPath: string, document: string ... 1 more field]\n"
+      },
+      "dateCreated": "Mar 23, 2017 12:35:11 PM",
+      "dateStarted": "Mar 27, 2017 6:20:12 PM",
+      "dateFinished": "Mar 27, 2017 6:21:20 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// Define a tokenizer\nval regexTokenizer \u003d new RegexTokenizer()\n  .setInputCol(\"document\")\n  .setOutputCol(\"words\")\n  .setToLowercase(true)\n  .setMinTokenLength(4)\n  .setPattern(\"[^\\\\ñ\\\\á\\\\é\\\\í\\\\ó\\\\ú\\\\ü\\\\w]\")\n\n// words column contains an array of the words in the document\nval regexTokenized \u003d regexTokenizer.transform(corpus)",
+      "dateUpdated": "Mar 27, 2017 6:20:12 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1490275963457_-679566870",
+      "id": "20170323-143243_379478319",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nregexTokenizer: org.apache.spark.ml.feature.RegexTokenizer \u003d regexTok_9e68f37f731b\n\nregexTokenized: org.apache.spark.sql.DataFrame \u003d [docPath: string, document: string ... 2 more fields]\n"
+      },
+      "dateCreated": "Mar 23, 2017 2:32:43 AM",
+      "dateStarted": "Mar 27, 2017 6:20:14 PM",
+      "dateFinished": "Mar 27, 2017 6:21:22 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.ml.feature.StopWordsRemover\n// Stop words reover with spanish as a language\nval remover \u003d new StopWordsRemover()\n  .setInputCol(\"words\")\n  .setOutputCol(\"filtered\")\n  .setStopWords(StopWordsRemover.loadDefaultStopWords(\"spanish\"))\n// filtered columns contains the words not includes in stopWords\nval filteredDF \u003d remover.transform(regexTokenized)",
+      "dateUpdated": "Mar 27, 2017 6:20:13 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1490275942287_748590399",
+      "id": "20170323-143222_997942968",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nimport org.apache.spark.ml.feature.StopWordsRemover\n\nremover: org.apache.spark.ml.feature.StopWordsRemover \u003d stopWords_be31923b189c\n\nfilteredDF: org.apache.spark.sql.DataFrame \u003d [docPath: string, document: string ... 3 more fields]\n"
+      },
+      "dateCreated": "Mar 23, 2017 2:32:22 AM",
+      "dateStarted": "Mar 27, 2017 6:21:20 PM",
+      "dateFinished": "Mar 27, 2017 6:21:25 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.ml.feature.{CountVectorizer, CountVectorizerModel}\n\n// fit a CountVectorizerModel from the corpus\nval cvModel: CountVectorizerModel \u003d new CountVectorizer()\n  .setInputCol(\"filtered\")\n  .setOutputCol(\"features\")\n  .setVocabSize(8000)\n  .setMinDF(5)\n  .fit(filteredDF)\n\nval countVectors \u003d cvModel.transform(filteredDF)",
+      "dateUpdated": "Mar 27, 2017 6:20:13 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1490275921282_-1801756818",
+      "id": "20170323-143201_1639024610",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nimport org.apache.spark.ml.feature.{CountVectorizer, CountVectorizerModel}\n\ncvModel: org.apache.spark.ml.feature.CountVectorizerModel \u003d cntVec_b804bcc155eb\n\ncountVectors: org.apache.spark.sql.DataFrame \u003d [docPath: string, document: string ... 4 more fields]\n"
+      },
+      "dateCreated": "Mar 23, 2017 2:32:01 AM",
+      "dateStarted": "Mar 27, 2017 6:21:24 PM",
+      "dateFinished": "Mar 27, 2017 6:21:37 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// fit LDA Model \nimport org.apache.spark.ml.clustering.LDA\nval lda \u003d new org.apache.spark.ml.clustering.LDA()\n            .setK(3)\n            .setMaxIter(100)\n            .setFeaturesCol(\"features\")\nval model \u003d lda.fit(countVectors)\n",
+      "dateUpdated": "Mar 27, 2017 6:20:15 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1490275900515_454764833",
+      "id": "20170323-143140_638226011",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nimport org.apache.spark.ml.clustering.LDA\n\nlda: org.apache.spark.ml.clustering.LDA \u003d lda_cf65b0d2cf6d\n\nmodel: org.apache.spark.ml.clustering.LDAModel \u003d lda_cf65b0d2cf6d\n"
+      },
+      "dateCreated": "Mar 23, 2017 2:31:40 AM",
+      "dateStarted": "Mar 27, 2017 6:21:25 PM",
+      "dateFinished": "Mar 27, 2017 6:27:27 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// Print the topics, showing the 10 top-weighted terms for each topic.\nval topicIndices \u003d model.describeTopics(maxTermsPerTopic \u003d 10)\nval vocabArray \u003d cvModel.vocabulary\nval topics \u003d  topicIndices.map(r \u003d\u003e (r.getSeq[Int](1).toArray, r.getSeq[Double](2).toArray)).collect()\ntopics.foreach { case (terms, termWeights) \u003d\u003e\n  println(\"TOPIC:\")\n  terms.zip(termWeights).foreach { case (term, weight) \u003d\u003e\n    println(s\"${vocabArray(term.toInt)}\\t\\t$weight\")\n  }\n  println()\n}",
+      "dateUpdated": "Mar 27, 2017 6:20:16 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1490270046071_-448973631",
+      "id": "20170323-125406_1695524421",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\ntopicIndices: org.apache.spark.sql.DataFrame \u003d [topic: int, termIndices: array\u003cint\u003e ... 1 more field]\nvocabArray: Array[String] \u003d Array(años, dijo, mundo, dice, gobierno, según, trump, país, personas, puede, parte, sólo, ahora, unidos, después, sido, hace, tiempo, presidente, cada, embargo, aunque, hacer, pueden, millones, menos, lugar, vida, caso, hecho, pasado, historia, tres, gente, mientras, tras, gran, mejor, equipo, cuenta, tener, forma, días, nacional, mismo, política, incluso, fútbol, nueva, haber, mayor, casa, además, momento, primera, cómo, méxico, estadounidense, bien, seguridad, casi, países, manera, podría, acuerdo, mujeres, muerte, mayoría, cuatro, entonces, joven, facebook, solo, partido, problema, medios, luego, grandes, internet, estudio, cualquier, rusia, general, poder, muchas, semana, universidad, ciudad, nuevo, cambio, final, internacional, empresas, trabajo, norte,...topics: Array[(Array[Int], Array[Double])] \u003d Array((Array(141, 294, 331, 180, 12, 183, 191, 332, 26, 262),Array(0.0010241865072869367, 9.630489174035448E-4, 8.630096946767844E-4, 8.366797369226024E-4, 8.23696656874531E-4, 8.145837285861414E-4, 7.83891100536508E-4, 7.747419022844327E-4, 7.684559496867133E-4, 7.636570956266979E-4)), (Array(0, 47, 132, 7, 2, 144, 73, 15, 87, 31),Array(0.009881654429130185, 0.008277475172596275, 0.007253950063182898, 0.005486094440412386, 0.005364905578809603, 0.0051522991111476995, 0.00513214448962725, 0.00504351053806698, 0.004965978747154111, 0.004881028350745934)), (Array(1, 0, 2, 4, 3, 6, 8, 5, 13, 7),Array(0.008365512347297873, 0.007813646526498729, 0.007066007938788858, 0.006454271625194781, 0.006184858817580029, 0.00618027638317727, 0.00512419464298...TOPIC:\nvuelta\t\t0.0010241865072869367\nsolución\t\t9.630489174035448E-4\nlasso\t\t8.630096946767844E-4\nvotos\t\t8.366797369226024E-4\nahora\t\t8.23696656874531E-4\nsegunda\t\t8.145837285861414E-4\nriesgo\t\t7.83891100536508E-4\nmartes\t\t7.747419022844327E-4\nlugar\t\t7.684559496867133E-4\nmoreno\t\t7.636570956266979E-4\n\nTOPIC:\naños\t\t0.009881654429130185\nfútbol\t\t0.008277475172596275\ncorrea\t\t0.007253950063182898\npaís\t\t0.005486094440412386\nmundo\t\t0.005364905578809603\necuador\t\t0.0051522991111476995\npartido\t\t0.00513214448962725\nsido\t\t0.00504351053806698\nciudad\t\t0.004965978747154111\nhistoria\t\t0.004881028350745934\n\nTOPIC:\ndijo\t\t0.008365512347297873\naños\t\t0.007813646526498729\nmundo\t\t0.007066007938788858\ngobierno\t\t0.006454271625194781\ndice\t\t0.006184858817580029\ntrump\t\t0.00618027638317727\npersonas\t\t0.005124194642987647\nsegún\t\t0.00507310201811912\nunidos\t\t0.004891870635719568\npaís\t\t0.004790384117821144\n\n"
+      },
+      "dateCreated": "Mar 23, 2017 12:54:06 PM",
+      "dateStarted": "Mar 27, 2017 6:21:38 PM",
+      "dateFinished": "Mar 27, 2017 6:27:43 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\nPipelines are useful to chain a Machine Learning workflow. This is an example using all the stages necessary to run LDA on a set of documents given the previous definitions of:\n\n- regexTokenizer\n- remover\n- cvModel\n- lda",
+      "dateUpdated": "Mar 27, 2017 6:20:17 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1490621426661_-2051542222",
+      "id": "20170327-153026_716710410",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003ePipelines are useful to chain a Machine Learning workflow. This is an example using all the stages necessary to run LDA on a set of documents given the previous definitions of:\u003c/p\u003e\n\u003cul\u003e\n\u003cli\u003eregexTokenizer\u003c/li\u003e\n\u003cli\u003eremover\u003c/li\u003e\n\u003cli\u003ecvModel\u003c/li\u003e\n\u003cli\u003elda\u003c/li\u003e\n\u003c/ul\u003e\n"
+      },
+      "dateCreated": "Mar 27, 2017 3:30:26 AM",
+      "dateStarted": "Mar 27, 2017 6:20:17 PM",
+      "dateFinished": "Mar 27, 2017 6:20:17 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.ml.{Pipeline}\n// Define and fit a pipeline to extract the topics of the documents.\nval topicModelingPipeline \u003d new Pipeline().setStages(Array(regexTokenizer, remover, cvModel, lda))\nval plModel \u003d topicModelingPipeline.fit(corpus)",
+      "dateUpdated": "Mar 27, 2017 6:28:54 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1490286763864_-997657773",
+      "id": "20170323-173243_98654864",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nimport org.apache.spark.ml.Pipeline\n\ntopicModelingPipeline: org.apache.spark.ml.Pipeline \u003d pipeline_337f036672ac\n\nplModel: org.apache.spark.ml.PipelineModel \u003d pipeline_337f036672ac\n"
+      },
+      "dateCreated": "Mar 23, 2017 5:32:43 AM",
+      "dateStarted": "Mar 27, 2017 6:28:55 PM",
+      "dateFinished": "Mar 27, 2017 6:34:12 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// The results are included in the column named topicDistribution\nval results \u003d plModel.transform(corpus)\nresults.select(\"docID\", \"topicDistribution\").show()",
+      "dateUpdated": "Mar 27, 2017 6:39:42 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1490280797050_-1965917145",
+      "id": "20170323-155317_2144530527",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nresults: org.apache.spark.sql.DataFrame \u003d [docPath: string, document: string ... 5 more fields]\n+-----+--------------------+\n|docID|   topicDistribution|\n+-----+--------------------+\n|    0|[1.67312717783446...|\n|    1|[5.85834783068633...|\n|    2|[1.92822527356941...|\n|    3|[2.46516607396893...|\n|    4|[3.08336112483252...|\n|    5|[3.08336112451859...|\n|    6|[1.60052892371448...|\n|    7|[1.97115933340569...|\n|    8|[2.52133408156476...|\n|    9|[1.33906519194596...|\n|   10|[2.36001739485947...|\n|   11|[2.34750116685206...|\n|   12|[1.42530165893791...|\n|   13|[2.42465535966619...|\n|   14|[6.27350020258105...|\n|   15|[2.75688971390916...|\n|   16|[0.00675101326923...|\n|   17|[3.79761283930654...|\n|   18|[2.31073655749627...|\n|   19|[2.43801017785460...|\n+-----+--------------------+\nonly showing top 20 rows\n\n"
+      },
+      "dateCreated": "Mar 23, 2017 3:53:17 AM",
+      "dateStarted": "Mar 27, 2017 6:39:44 PM",
+      "dateFinished": "Mar 27, 2017 6:39:49 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// Getting the main topic per document.\nimport org.apache.spark.ml.linalg.Vector\nval topicSelect \u003d udf { s: Vector \u003d\u003e s.argmax }\nval topicByDoc \u003d results.withColumn(\"topicIndex\", topicSelect(results(\"topicDistribution\")))",
+      "dateUpdated": "Mar 27, 2017 6:39:57 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1490390374099_1077937129",
+      "id": "20170324-221934_1661666472",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nimport org.apache.spark.ml.linalg.Vector\n\ntopicSelect: org.apache.spark.sql.expressions.UserDefinedFunction \u003d UserDefinedFunction(\u003cfunction1\u003e,IntegerType,Some(List(org.apache.spark.ml.linalg.VectorUDT@3bfc3ba7)))\n\ntopicByDoc: org.apache.spark.sql.DataFrame \u003d [docPath: string, document: string ... 6 more fields]\n"
+      },
+      "dateCreated": "Mar 24, 2017 10:19:34 AM",
+      "dateStarted": "Mar 27, 2017 6:39:57 PM",
+      "dateFinished": "Mar 27, 2017 6:40:01 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//Selecting the main topic per document\ntopicByDoc.groupBy(\"topicIndex\").count().show()\ntopicByDoc.createOrReplaceTempView(\"topicByDoc\")",
+      "dateUpdated": "Mar 27, 2017 6:41:34 PM",
+      "config": {
+        "colWidth": 6.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1490623386484_-266007190",
+      "id": "20170327-160306_577100395",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "+----------+-----+\n|topicIndex|count|\n+----------+-----+\n|         1|   26|\n|         2|  105|\n+----------+-----+\n\n"
+      },
+      "dateCreated": "Mar 27, 2017 4:03:06 AM",
+      "dateStarted": "Mar 27, 2017 6:40:07 PM",
+      "dateFinished": "Mar 27, 2017 6:40:16 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sql\nselect docID, topicIndex from topicByDoc",
+      "dateUpdated": "Mar 27, 2017 6:40:33 PM",
+      "config": {
+        "colWidth": 6.0,
+        "graph": {
+          "mode": "multiBarChart",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "topicIndex",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "docID",
+              "index": 0.0,
+              "aggr": "count"
+            }
+          ],
+          "groups": [
+            {
+              "name": "topicIndex",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "scatter": {
+            "xAxis": {
+              "name": "docID",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/sql"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1490620684734_-1725913313",
+      "id": "20170327-151804_1449731930",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "docID\ttopicIndex\n0\t2\n1\t1\n2\t1\n3\t2\n4\t2\n5\t2\n6\t1\n7\t2\n8\t2\n9\t2\n10\t2\n11\t2\n12\t2\n13\t2\n14\t2\n15\t1\n16\t1\n17\t2\n18\t2\n19\t2\n20\t2\n21\t1\n22\t1\n23\t1\n24\t1\n25\t1\n26\t2\n27\t1\n28\t2\n29\t1\n30\t1\n31\t1\n32\t2\n33\t2\n34\t2\n35\t1\n36\t1\n37\t1\n38\t2\n39\t1\n40\t1\n41\t1\n42\t2\n43\t1\n44\t1\n45\t2\n46\t2\n47\t2\n48\t2\n49\t2\n50\t2\n51\t2\n52\t2\n53\t2\n54\t2\n55\t1\n56\t2\n57\t2\n58\t2\n59\t2\n60\t2\n61\t2\n62\t1\n63\t2\n64\t2\n65\t2\n8589934592\t2\n8589934593\t2\n8589934594\t2\n8589934595\t2\n8589934596\t2\n8589934597\t2\n8589934598\t2\n8589934599\t2\n8589934600\t2\n8589934601\t2\n8589934602\t2\n8589934603\t2\n8589934604\t2\n8589934605\t2\n8589934606\t2\n8589934607\t2\n8589934608\t1\n8589934609\t2\n8589934610\t2\n8589934611\t2\n8589934612\t2\n8589934613\t2\n8589934614\t2\n8589934615\t2\n8589934616\t2\n8589934617\t2\n8589934618\t2\n8589934619\t2\n8589934620\t2\n8589934621\t2\n8589934622\t2\n8589934623\t2\n8589934624\t2\n8589934625\t2\n8589934626\t2\n8589934627\t2\n8589934628\t2\n8589934629\t2\n8589934630\t2\n8589934631\t2\n8589934632\t2\n8589934633\t2\n8589934634\t2\n8589934635\t2\n8589934636\t2\n8589934637\t2\n8589934638\t2\n8589934639\t2\n8589934640\t2\n8589934641\t2\n8589934642\t2\n8589934643\t2\n8589934644\t2\n8589934645\t2\n8589934646\t1\n8589934647\t2\n8589934648\t2\n8589934649\t2\n8589934650\t2\n8589934651\t2\n8589934652\t2\n8589934653\t2\n8589934654\t2\n8589934655\t2\n8589934656\t2\n"
+      },
+      "dateCreated": "Mar 27, 2017 3:18:04 AM",
+      "dateStarted": "Mar 27, 2017 6:40:34 PM",
+      "dateFinished": "Mar 27, 2017 6:40:38 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "",
+      "dateUpdated": "Mar 27, 2017 6:20:20 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1490621055438_-1422414829",
+      "id": "20170327-152415_824348288",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Mar 27, 2017 3:24:15 AM",
+      "dateStarted": "Mar 27, 2017 6:28:05 PM",
+      "dateFinished": "Mar 27, 2017 6:28:05 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "LDA",
+  "id": "2CBWGZB6V",
+  "angularObjects": {
+    "2C5FFECRU:shared_process": [],
+    "2C93JP36N:shared_process": [],
+    "2C7JTTY82:shared_process": [],
+    "2C8EJEW8Y:shared_process": [],
+    "2C8ERSTAS:shared_process": [],
+    "2C7KRVW4Q:shared_process": [],
+    "2C96N7S5N:shared_process": [],
+    "2C86162WT:shared_process": [],
+    "2C8M8DRJ9:shared_process": [],
+    "2C7ZDDEB5:shared_process": [],
+    "2C71KN9GQ:shared_process": [],
+    "2C7QNFVBF:shared_process": [],
+    "2C5GADVTS:shared_process": [],
+    "2C8UHUXRM:shared_process": [],
+    "2C6S5PRJH:shared_process": [],
+    "2C8JAU3WE:shared_process": [],
+    "2C95CZY97:shared_process": [],
+    "2C72K2MPN:shared_process": []
+  },
+  "config": {},
+  "info": {}
+}
