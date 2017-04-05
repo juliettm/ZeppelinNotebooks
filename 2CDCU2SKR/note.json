@@ -1,0 +1,235 @@
+{
+  "paragraphs": [
+    {
+      "text": "import pandas as pd\ndata \u003d pd.read_excel(\"/Users/24s/Documents/Online_Beauty.xls\")",
+      "user": "anonymous",
+      "dateUpdated": "Mar 29, 2017 6:32:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "jobName": "paragraph_1490802797679_1201261957",
+      "id": "20170329-175317_2094989026",
+      "dateCreated": "Mar 29, 2017 5:53:17 PM",
+      "dateStarted": "Mar 29, 2017 6:32:56 PM",
+      "dateFinished": "Mar 29, 2017 6:32:58 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "data.dtypes",
+      "user": "anonymous",
+      "dateUpdated": "Mar 29, 2017 6:40:29 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "idR             int64\nchannel        object\nprice           int64\niva           float64\ncountry        object\ncity           object\nlat           float64\nlon           float64\ncenter         object\nproduct        object\ndate           object\nreferralID      int64\nstatus         object\nusrCountry     object\nusrID           int64\nhourStart       int64\ndtype: object\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1490805620406_1287456101",
+      "id": "20170329-184020_1760636829",
+      "dateCreated": "Mar 29, 2017 6:40:20 PM",
+      "dateStarted": "Mar 29, 2017 6:40:29 PM",
+      "dateFinished": "Mar 29, 2017 6:40:29 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "data[\u0027price\u0027].hist(bins\u003d10)",
+      "user": "anonymous",
+      "dateUpdated": "Mar 29, 2017 6:38:03 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u003cmatplotlib.axes._subplots.AxesSubplot object at 0x10e988750\u003e\n"
+          },
+          {
+            "type": "HTML",
+            "data": "\u003cdiv style\u003d\u0027width:auto;height:auto\u0027\u003e\u003cimg src\u003ddata:image/png;base64,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pb+/X319fbr11ls1PDzMdV6AszO/5ZZbJHGd19OpU6e0aNEiVatVhRDU2dnp7jqnYE3SwYMH9f777+sPf/iDnnvuOb311lvWkVxK9zpkuJTNmzfrs88+U19fn6rVKk+h1MHx48e1evVqPf3002pubv7Gdc11nt6FM+c6r69p06bpgw8+0MDAgP70pz8pxujuOqdgTdLs2bMlSTNnztS9996r3t5e40Q+tLZQv9bKAAACF0lEQVS2anh4WNLpsxSzZs0yTpS/mTNnjn/he/jhh/XOO+8YJ8rLiRMntHr1am3YsEF33323JK7zervYzLnOi/Htb39bP/rRj/Tuu++6u84pWJPw1Vdf6fjx45KkL7/8Uvv379f1119vnCpPY2Nj552LuOuuu/Sb3/xGkvTb3/52/Isj0rlw5kNDQ+P//eqrr3KtJ/bggw+qs7NTjzzyyPhtXOf1dbGZc53Xzz/+8Y/xp1z//e9/649//KMWLVrk7jrntwgn4fPPP9e9996rSqWiEydOaP369Xr88cetY2Vn3bp1ijHqiy++UGtrq7Zu3ap77rlH9913n44ePap58+Zpz549amlpsY6ajYvN/M0331RfX5+mTZumWq2m559/fvzcBK7MwYMHdccdd2jhwoWqVCqqVCratm2blixZojVr1nCd18GlZv7SSy9xndfJRx99pO7u7vFfDtuwYYN+8pOf6J///Ker65yCBQAAkBhPEQIAACRGwQIAAEiMggUAAJAYBQsAACAxChYAAEBiFCwAAIDEKFgAAACJUbAAAAASo2ABAAAkRsECAABIjIIFAACQGAULAAAgMQoWAABAYhQsAACAxChYAAAAiVGwAAAAEqNgAQAAJEbBAgAASIyCBQAAkBgFCwAAIDEKFgAAQGIULAAAgMQoWAAAAIlRsAAAABKjYAEAACRGwQIAAEiMggUAAJDY/wdLGZs8F5LHTwAAAABJRU5ErkJggg\u003d\u003d style\u003d\u0027width\u003dauto;height:auto\u0027\u003e\u003cdiv\u003e\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1490805108769_-540618383",
+      "id": "20170329-183148_1872802523",
+      "dateCreated": "Mar 29, 2017 6:31:48 PM",
+      "dateStarted": "Mar 29, 2017 6:38:03 PM",
+      "dateFinished": "Mar 29, 2017 6:38:11 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "data.head(5)",
+      "user": "anonymous",
+      "dateUpdated": "Mar 29, 2017 6:32:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "   idR     channel  price   iva country    city        lat       lon center  \\\n0    1         SEO     15  0.21   Spain  Madrid  40.408357 -3.714264     C1   \n1    2      Direct     28  0.21   Spain  Madrid  40.408357 -3.714264     C1   \n2    3      Direct     15  0.21   Spain  Madrid  40.408357 -3.714264     C1   \n3    4    Referral     14  0.21   Spain  Madrid  40.408357 -3.714264     C1   \n4    5  Newsletter     23  0.21   Spain  Madrid  40.408357 -3.714264     C1   \n\n    product        date  referralID    status usrCountry  usrID  hourStart  \n0     Nails  01/12/2015           1        OK      Spain     61         18  \n1     Nails  03/12/2015           1  Canceled      Spain     20         15  \n2      Hair  20/12/2015           1        OK      Spain    132         15  \n3      Hair  26/12/2015           1  Canceled      Spain    119         10  \n4  Eyebrows  15/12/2015           1        OK      Spain    130         14  \n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1490804341944_-748473614",
+      "id": "20170329-181901_118265632",
+      "dateCreated": "Mar 29, 2017 6:19:01 PM",
+      "dateStarted": "Mar 29, 2017 6:32:58 PM",
+      "dateFinished": "Mar 29, 2017 6:33:26 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "data.describe()",
+      "user": "anonymous",
+      "dateUpdated": "Mar 29, 2017 6:32:57 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "              idR        price      iva          lat          lon  \\\ncount  1800.00000  1800.000000  1800.00  1800.000000  1800.000000   \nmean    900.50000    18.121111     0.21    40.415792    -3.703000   \nstd     519.75956     7.131326     0.00     0.006073     0.009613   \nmin       1.00000     6.000000     0.21    40.408357    -3.714264   \n25%     450.75000    12.000000     0.21    40.408357    -3.714264   \n50%     900.50000    18.000000     0.21    40.420619    -3.699090   \n75%    1350.25000    24.000000     0.21    40.420877    -3.691891   \nmax    1800.00000    30.000000     0.21    40.420877    -3.691891   \n\n        referralID        usrID    hourStart  \ncount  1800.000000  1800.000000  1800.000000  \nmean      1.900000   607.402222    13.974444  \nstd       0.830893   359.017991     3.164810  \nmin       1.000000     1.000000     9.000000  \n25%       1.000000   304.000000    11.000000  \n50%       2.000000   542.000000    14.000000  \n75%       3.000000   919.250000    17.000000  \nmax       3.000000  1396.000000    19.000000  \n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1490803040307_776066805",
+      "id": "20170329-175720_2016001732",
+      "dateCreated": "Mar 29, 2017 5:57:20 PM",
+      "dateStarted": "Mar 29, 2017 6:33:26 PM",
+      "dateFinished": "Mar 29, 2017 6:33:26 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "user": "anonymous",
+      "dateUpdated": "Mar 29, 2017 6:32:57 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1490803895292_-1577803419",
+      "id": "20170329-181135_2002721197",
+      "dateCreated": "Mar 29, 2017 6:11:35 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "EDA-Python",
+  "id": "2CDCU2SKR",
+  "angularObjects": {
+    "2CBF2QYHY:shared_process": [],
+    "2CEHZHBPJ:shared_process": [],
+    "2CD9EGWZR:shared_process": [],
+    "2CEBE5YXV:shared_process": [],
+    "2CCGSDHNG:shared_process": [],
+    "2CC46A3SN:shared_process": [],
+    "2CDMZKD8G:shared_process": [],
+    "2CDEGXS9K:shared_process": [],
+    "2CEFENF3Y:shared_process": [],
+    "2CD6PFY55:shared_process": [],
+    "2CBDRET1Y:shared_process": [],
+    "2CC7543MA:shared_process": [],
+    "2CEC6VJ5N:shared_process": [],
+    "2CERTGAAK:shared_process": [],
+    "2CCAT22D9:shared_process": [],
+    "2CBHSWUYA:shared_process": [],
+    "2CCPUT862:shared_process": [],
+    "2CD5QDZZ1:shared_process": [],
+    "2CCPPSYT6:shared_process": []
+  },
+  "config": {
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {}
+}

@@ -1,0 +1,690 @@
+{
+  "paragraphs": [
+    {
+      "title": "",
+      "text": "%md\n## Topic Modeling using MLlib LDA\n\nBased on the posts:\n* [Topic modeling with LDA: MLlib meets GraphX](https://databricks.com/blog/2015/03/25/topic-modeling-with-lda-mllib-meets-graphx.html) \n* [Large Scale Topic Modeling: Improvements to LDA on Apache Spark](https://databricks.com/blog/2015/09/22/large-scale-topic-modeling-improvements-to-lda-on-apache-spark.html)\n\nUsing a total of 132 articles from the BBC to extract topics from news.\n",
+      "dateUpdated": "Mar 23, 2017 5:35:19 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "editorHide": true,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1487842609783_912381853",
+      "id": "20170223-103649_1338479454",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch2\u003eTopic Modeling using MLlib LDA\u003c/h2\u003e\n\u003cp\u003eBased on the posts:\u003c/p\u003e\n\u003cul\u003e\n\u003cli\u003e\u003ca href\u003d\"https://databricks.com/blog/2015/03/25/topic-modeling-with-lda-mllib-meets-graphx.html\"\u003eTopic modeling with LDA: MLlib meets GraphX\u003c/a\u003e\u003c/li\u003e\n\u003cli\u003e\u003ca href\u003d\"https://databricks.com/blog/2015/09/22/large-scale-topic-modeling-improvements-to-lda-on-apache-spark.html\"\u003eLarge Scale Topic Modeling: Improvements to LDA on Apache Spark\u003c/a\u003e\u003c/li\u003e\n\u003c/ul\u003e\n\u003cp\u003eUsing a total of 132 articles from the BBC to extract topics from news.\u003c/p\u003e\n"
+      },
+      "dateCreated": "Feb 23, 2017 10:36:49 AM",
+      "dateStarted": "Mar 23, 2017 5:35:31 PM",
+      "dateFinished": "Mar 23, 2017 5:35:34 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "import scala.collection.mutable\nimport scala.io.Source\nimport org.apache.spark.mllib.clustering.{LDA,DistributedLDAModel,EMLDAOptimizer}\nimport org.apache.spark.mllib.linalg.{Vector, Vectors}\nimport org.apache.spark.rdd.RDD",
+      "dateUpdated": "Mar 23, 2017 5:35:31 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1484128657801_1468990253",
+      "id": "20170111-105737_519934064",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nimport scala.collection.mutable\n\nimport scala.io.Source\n\nimport org.apache.spark.mllib.clustering.{LDA, DistributedLDAModel, EMLDAOptimizer}\n\nimport org.apache.spark.mllib.linalg.{Vector, Vectors}\n\nimport org.apache.spark.rdd.RDD\n"
+      },
+      "dateCreated": "Jan 11, 2017 10:57:37 AM",
+      "dateStarted": "Mar 23, 2017 5:35:41 PM",
+      "dateFinished": "Mar 23, 2017 5:35:45 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "// Load documents from text files, 1 document per file\nval corpus: RDD[String] \u003d sc.wholeTextFiles(\"../Articles/*.txt\").map(_._2)",
+      "dateUpdated": "Mar 23, 2017 5:35:41 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1484128681562_1068097224",
+      "id": "20170111-105801_703509350",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\ncorpus: org.apache.spark.rdd.RDD[String] \u003d MapPartitionsRDD[937] at map at \u003cconsole\u003e:143\n"
+      },
+      "dateCreated": "Jan 11, 2017 10:58:01 AM",
+      "dateStarted": "Mar 23, 2017 5:35:52 PM",
+      "dateFinished": "Mar 23, 2017 5:35:54 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "// Split each document into a sequence of terms (words)\nval tokenized: RDD[Seq[String]] \u003d corpus.map(_.toLowerCase.split(\"\\\\s\")).map(_.filter(_.length \u003e 3).filter(_.forall(java.lang.Character.isLetter)))",
+      "dateUpdated": "Mar 23, 2017 5:35:52 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1484128777861_70782102",
+      "id": "20170111-105937_1690340437",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\ntokenized: org.apache.spark.rdd.RDD[Seq[String]] \u003d MapPartitionsRDD[939] at map at \u003cconsole\u003e:145\n"
+      },
+      "dateCreated": "Jan 11, 2017 10:59:37 AM",
+      "dateStarted": "Mar 23, 2017 5:36:02 PM",
+      "dateFinished": "Mar 23, 2017 5:36:07 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "//Load stop words\nval stopWords \u003d sc.textFile(\"../stopW.txt\").map(x \u003d\u003e (x,0))\nstopWords.take(3)\n",
+      "dateUpdated": "Mar 23, 2017 5:36:02 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1484130632719_-1179528935",
+      "id": "20170111-113032_384005072",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nstopWords: org.apache.spark.rdd.RDD[(String, Int)] \u003d MapPartitionsRDD[942] at map at \u003cconsole\u003e:143\n\nres129: Array[(String, Int)] \u003d Array((él,0), (ésta,0), (éstas,0))\n"
+      },
+      "dateCreated": "Jan 11, 2017 11:30:32 AM",
+      "dateStarted": "Mar 23, 2017 5:36:13 PM",
+      "dateFinished": "Mar 23, 2017 5:36:18 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "//Count terms and delete stop words from vocabulary\nval termsCount \u003d tokenized.flatMap(_.map(_ -\u003e 1L)).reduceByKey(_ + _)\nval termsVocabulary \u003d termsCount.subtractByKey(stopWords)\n\n//termsCount.count()\n//termsVocabulary.count()",
+      "dateUpdated": "Mar 23, 2017 5:36:13 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1484219359039_1224894411",
+      "id": "20170112-120919_338961535",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\ntermsCount: org.apache.spark.rdd.RDD[(String, Long)] \u003d ShuffledRDD[944] at reduceByKey at \u003cconsole\u003e:147\n\ntermsVocabulary: org.apache.spark.rdd.RDD[(String, Long)] \u003d SubtractedRDD[945] at subtractByKey at \u003cconsole\u003e:150\n"
+      },
+      "dateCreated": "Jan 12, 2017 12:09:19 PM",
+      "dateStarted": "Mar 23, 2017 5:36:23 PM",
+      "dateFinished": "Mar 23, 2017 5:36:27 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "// termCountsSW: Sorted list of (term, termCount) pairs\nval termCountsSW: Array[(String, Long)] \u003d termsVocabulary.collect().sortBy(-_._2)\n// Choose the vocabulary\n// vocab: Map term -\u003e term index\nval vocab: Map[String, Int] \u003d termCountsSW.map(_._1).zipWithIndex.toMap\n\nvocab.take(2)",
+      "dateUpdated": "Mar 23, 2017 5:36:23 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1484222198738_-215189026",
+      "id": "20170112-125638_2028463726",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "termCountsSW: Array[(String, Long)] \u003d Array((estados,130), (años,127), (gobierno,121), (personas,112), (mundo,102), (presidente,91), (trump,87), (país,80), (millones,66), (gente,64), (forma,61), (historia,56), (equipo,55), (caso,53), (política,52), (días,52), (seguridad,51), (mayoría,51), (nacional,51), (vida,50), (unidos,49), (casa,48), (fútbol,48), (medios,47), (muerte,45), (acuerdo,45), (universidad,44), (estadounidense,44), (mujeres,44), (problema,43), (países,43), (partido,42), (joven,40), (tipo,39), (ciudad,38), (general,38), (grupo,38), (final,37), (empresas,37), (datos,37), (autoridades,37), (número,37), (cambio,37), (principal,36), (estudio,36), (méxico,36), (alguien,36), (punto,35), (semana,34), (idea,34), (norte,33), (sistema,33), (donald,33), (mujer,33), (facebook,32), (nomb...vocab: Map[String,Int] \u003d Map(laposibilidad -\u003e 10589, indígena -\u003e 4825, advertencia -\u003e 2565, correcto -\u003e 8511, milenios -\u003e 5197, taimina -\u003e 10494, leer -\u003e 4143, constantes -\u003e 5578, alemana -\u003e 2864, norcoreano -\u003e 1850, carreteras -\u003e 2232, rescatistas -\u003e 7163, culés -\u003e 8125, desconoce -\u003e 4493, realice -\u003e 4626, zoólogo -\u003e 5088, códigos -\u003e 7898, terrible -\u003e 4335, arrojan -\u003e 8825, trates -\u003e 11047, votaría -\u003e 5323, flechas -\u003e 6101, pepper -\u003e 1698, inevitable -\u003e 9668, intrínseco -\u003e 5256, abiertos -\u003e 10600, logra -\u003e 10505, suecas -\u003e 7988, volverse -\u003e 6391, viudos -\u003e 8222, michael -\u003e 718, inusual -\u003e 1318, advertido -\u003e 3655, nacido -\u003e 3710, mejorado -\u003e 2192, thiago -\u003e 5451, concretó -\u003e 9690, palaciegas -\u003e 6242, ranking -\u003e 1858, componen -\u003e 4682, california -\u003e 1363, calificarla -\u003e 9843, hembras -\u003e ...\nres134: scala.collection.immutable.Map[String,Int] \u003d Map(laposibilidad -\u003e 10589, indígena -\u003e 4825)\n"
+      },
+      "dateCreated": "Jan 12, 2017 12:56:38 PM",
+      "dateStarted": "Mar 23, 2017 5:36:33 PM",
+      "dateFinished": "Mar 23, 2017 5:36:42 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "// Convert documents into term count vectors\nval documents: RDD[(Long, Vector)] \u003d\n  tokenized.zipWithIndex.map { case (tokens, id) \u003d\u003e\n    val counts \u003d new mutable.HashMap[Int, Double]()\n    tokens.foreach { term \u003d\u003e\n      if (vocab.contains(term)) {\n        val idx \u003d vocab(term)\n        counts(idx) \u003d counts.getOrElse(idx, 0.0) + 1.0\n      }\n    }\n    (id, Vectors.sparse(vocab.size, counts.toSeq))\n  }\n",
+      "dateUpdated": "Mar 23, 2017 5:36:33 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1484128866282_1252836348",
+      "id": "20170111-110106_1843940001",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\ndocuments: org.apache.spark.rdd.RDD[(Long, org.apache.spark.mllib.linalg.Vector)] \u003d MapPartitionsRDD[947] at map at \u003cconsole\u003e:158\n"
+      },
+      "dateCreated": "Jan 11, 2017 11:01:06 AM",
+      "dateStarted": "Mar 23, 2017 5:36:45 PM",
+      "dateFinished": "Mar 23, 2017 5:36:55 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "// Set LDA parameters\nval numTopics \u003d 3\nval lda \u003d new org.apache.spark.mllib.clustering.LDA().setK(numTopics).setMaxIterations(100)\n//.setOptimizer(optimizerName \u003d \"em\").setDocConcentration(11).setTopicConcentration(1.1)\nval ldaModel \u003d lda.run(documents)",
+      "dateUpdated": "Mar 23, 2017 5:39:15 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1484128914707_-1394743427",
+      "id": "20170111-110154_825666248",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\nnumTopics: Int \u003d 3\n\nlda: org.apache.spark.mllib.clustering.LDA \u003d org.apache.spark.mllib.clustering.LDA@199020ab\n\nldaModel: org.apache.spark.mllib.clustering.LDAModel \u003d org.apache.spark.mllib.clustering.DistributedLDAModel@7d1c9fe3\n"
+      },
+      "dateCreated": "Jan 11, 2017 11:01:54 AM",
+      "dateStarted": "Mar 23, 2017 5:39:37 PM",
+      "dateFinished": "Mar 23, 2017 5:44:24 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "// Print topics, showing top-weighted 10 terms for each topic.\nval topicIndices \u003d ldaModel.describeTopics(maxTermsPerTopic \u003d 10)\ntopicIndices.foreach { case (terms, termWeights) \u003d\u003e\n  println(\"TOPIC:\")\n  terms.zip(termWeights).foreach { case (term, weight) \u003d\u003e\n    println(s\"${termCountsSW(term.toInt)}\\t$weight\")\n  }\n  println()\n}",
+      "dateUpdated": "Mar 23, 2017 5:47:58 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1484128958543_1861832560",
+      "id": "20170111-110238_1645827179",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "topicIndices: Array[(Array[Int], Array[Double])] \u003d Array((Array(1, 3, 4, 9, 15, 13, 10, 82, 76, 19),Array(0.004950515661641136, 0.0040592994552191754, 0.0032508406214920133, 0.003218957666969978, 0.002733096188689032, 0.00259273161533241, 0.002550516415642208, 0.002510568272856378, 0.002494651668905495, 0.0022601575829773106)), (Array(0, 2, 6, 5, 8, 7, 16, 4, 20, 25),Array(0.009817095523116789, 0.008090184746925053, 0.007547651255725225, 0.005277240475144091, 0.004365941340187954, 0.0038867568281508785, 0.003815929953989843, 0.0033544844629913558, 0.003338228833000783, 0.003210279168844958)), (Array(12, 22, 1, 24, 3, 23, 31, 57, 11, 5),Array(0.004495685351130262, 0.004021847024897681, 0.0035408251111183936, 0.0032733787971851876, 0.003104837506031141, 0.0030598048529767437, 0.0029068314...TOPIC:\n(años,127)\t0.004950515661641136\n(personas,112)\t0.0040592994552191754\n(mundo,102)\t0.0032508406214920133\n(gente,64)\t0.003218957666969978\n(días,52)\t0.002733096188689032\n(caso,53)\t0.00259273161533241\n(forma,61)\t0.002550516415642208\n(estudiantes,28)\t0.002510568272856378\n(efecto,28)\t0.002494651668905495\n(vida,50)\t0.0022601575829773106\n\nTOPIC:\n(estados,130)\t0.009817095523116789\n(gobierno,121)\t0.008090184746925053\n(trump,87)\t0.007547651255725225\n(presidente,91)\t0.005277240475144091\n(millones,66)\t0.004365941340187954\n(país,80)\t0.0038867568281508785\n(seguridad,51)\t0.003815929953989843\n(mundo,102)\t0.0033544844629913558\n(unidos,49)\t0.003338228833000783\n(acuerdo,45)\t0.003210279168844958\n\nTOPIC:\n(equipo,55)\t0.004495685351130262\n(fútbol,48)\t0.004021847024897681\n(años,127)\t0.0035408251111183936\n(muerte,45)\t0.0032733787971851876\n(personas,112)\t0.003104837506031141\n(medios,47)\t0.0030598048529767437\n(partido,42)\t0.002906831499124036\n(jugadores,31)\t0.002596537066151935\n(historia,56)\t0.002539114422130583\n(presidente,91)\t0.0025365133046746403\n\n"
+      },
+      "dateCreated": "Jan 11, 2017 11:02:38 AM",
+      "dateStarted": "Mar 23, 2017 5:48:20 PM",
+      "dateFinished": "Mar 23, 2017 5:48:33 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "//Convert to DistributedLDAModel\nval distLDAModel \u003d ldaModel.asInstanceOf[DistributedLDAModel]\n//Get top (1) topic per document\nval topTopicsPerDoc \u003d distLDAModel.topTopicsPerDocument(1)\ntopTopicsPerDoc.take(10)",
+      "dateUpdated": "Mar 23, 2017 5:37:05 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1484214749995_749003303",
+      "id": "20170112-105229_241058227",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\n\n\n\u003cconsole\u003e:141: error: not found: value ldaModel\n       val distLDAModel \u003d ldaModel.asInstanceOf[DistributedLDAModel]\n                          ^\n"
+      },
+      "dateCreated": "Jan 12, 2017 10:52:29 AM",
+      "dateStarted": "Mar 23, 2017 5:37:16 PM",
+      "dateFinished": "Mar 23, 2017 5:37:16 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "val tD \u003d distLDAModel.topicDistributions\ntD.take(4)",
+      "dateUpdated": "Mar 23, 2017 5:37:16 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1484217507581_-2101523630",
+      "id": "20170112-113827_619252844",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\n\n\n\u003cconsole\u003e:140: error: not found: value distLDAModel\n       val tD \u003d distLDAModel.topicDistributions\n                ^\n"
+      },
+      "dateCreated": "Jan 12, 2017 11:38:27 AM",
+      "dateStarted": "Mar 23, 2017 5:37:26 PM",
+      "dateFinished": "Mar 23, 2017 5:37:27 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "val docPerTopic \u003d distLDAModel.topDocumentsPerTopic(3)",
+      "dateUpdated": "Mar 23, 2017 5:37:26 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "editorMode": "ace/mode/scala",
+        "results": [
+          {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "keys": [],
+              "values": [],
+              "groups": [],
+              "scatter": {}
+            }
+          }
+        ],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1487853796916_53420255",
+      "id": "20170223-134316_1589763274",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\n\n\n\u003cconsole\u003e:140: error: not found: value distLDAModel\n       val docPerTopic \u003d distLDAModel.topDocumentsPerTopic(3)\n                         ^\n"
+      },
+      "dateCreated": "Feb 23, 2017 1:43:16 AM",
+      "dateStarted": "Mar 23, 2017 5:37:37 PM",
+      "dateFinished": "Mar 23, 2017 5:37:37 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "",
+      "text": "",
+      "dateUpdated": "Mar 23, 2017 5:37:37 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": [],
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1487865409708_9224137",
+      "id": "20170223-165649_66265007",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Feb 23, 2017 4:56:49 AM",
+      "dateStarted": "Mar 23, 2017 5:37:47 PM",
+      "dateFinished": "Mar 23, 2017 5:37:47 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Text",
+  "id": "2C7FSUYEE",
+  "angularObjects": {
+    "2C5FFECRU:shared_process": [],
+    "2C93JP36N:shared_process": [],
+    "2C7JTTY82:shared_process": [],
+    "2C8EJEW8Y:shared_process": [],
+    "2C8ERSTAS:shared_process": [],
+    "2C7KRVW4Q:shared_process": [],
+    "2C96N7S5N:shared_process": [],
+    "2C86162WT:shared_process": [],
+    "2C8M8DRJ9:shared_process": [],
+    "2C7ZDDEB5:shared_process": [],
+    "2C71KN9GQ:shared_process": [],
+    "2C7QNFVBF:shared_process": [],
+    "2C5GADVTS:shared_process": [],
+    "2C8UHUXRM:shared_process": [],
+    "2C8JAU3WE:shared_process": [],
+    "2C6S5PRJH:shared_process": [],
+    "2C95CZY97:shared_process": [],
+    "2C72K2MPN:shared_process": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

@@ -114,10 +114,10 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "title": "Earnings by month",
+      "title": "Revenue by month",
       "text": "%jdbc\nselect \ncenter,\nto_char(dateorder, \u0027YYYY-MM\u0027) as MonthYear, \nsum(price)* 0.25 as earn\nfrom orders\nwhere status \u003d \u0027OK\u0027\ngroup by center, MonthYear\norder by center, MonthYear\n",
       "user": "anonymous",
-      "dateUpdated": "Apr 5, 2017 10:28:16 AM",
+      "dateUpdated": "Apr 5, 2017 11:36:21 AM",
       "config": {
         "colWidth": 8.0,
         "enabled": true,
@@ -190,7 +190,7 @@
       "title": "Total revenue by type of service",
       "text": "%jdbc\nselect \ncenter,\nto_char(dateorder, \u0027YYYY-MM\u0027) as MonthYear, \nproduct,\nsum(price) * 0.25 as earn,\ncount(*) as numServices\nfrom orders\nwhere status \u003d \u0027OK\u0027\ngroup by center, MonthYear, product\norder by center, MonthYear, product\n",
       "user": "anonymous",
-      "dateUpdated": "Apr 5, 2017 10:40:27 AM",
+      "dateUpdated": "Apr 5, 2017 11:33:51 AM",
       "config": {
         "colWidth": 8.0,
         "enabled": true,
