@@ -1,0 +1,371 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md\n# Online reservation service\nThis Zeppelin notebook is a sample dashboard only using %jdbc and %md. The data used is from a fake \"online reservation service\" that allows customers to make reservations of beauty services in several centers.\nThe aim of this notebook is not to analyze the data but show the potential of Zeppelin to make dashboards, even when Zeppeling has only a few basic graphics it\u0027s a good choice to small business.\nThe map is imported from [Carto](https://juliettm.carto.com/dashboard).",
+      "user": "anonymous",
+      "dateUpdated": "Apr 5, 2017 11:21:13 AM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eOnline reservation service\u003c/h1\u003e\n\u003cp\u003eThis Zeppelin notebook is a sample dashboard only using %jdbc and %md. The data used is from a fake \u0026ldquo;online reservation service\u0026rdquo; that allows customers to make reservations of beauty services in several centers.\u003cbr/\u003eThe aim of this notebook is not to analyze the data but show the potential of Zeppelin to make dashboards, even when Zeppeling has only a few basic graphics it\u0026rsquo;s a good choice to small business.\u003cbr/\u003eThe map is imported from \u003ca href\u003d\"https://juliettm.carto.com/dashboard\"\u003eCarto\u003c/a\u003e.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1491380161201_-560010642",
+      "id": "20170405-101601_1228514088",
+      "dateCreated": "Apr 5, 2017 10:16:01 AM",
+      "dateStarted": "Apr 5, 2017 11:21:13 AM",
+      "dateFinished": "Apr 5, 2017 11:21:13 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n\u003ciframe\nwidth\u003d\"100%\" height\u003d\"520\" frameborder\u003d\"0\" src\u003d\"https://juliettm.carto.com/viz/f1bd2cbc-1924-11e7-ac6f-0ee66e2c9693/embed_map\" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen\u003e\n\u003c/iframe\u003e",
+      "user": "anonymous",
+      "dateUpdated": "Apr 5, 2017 10:47:53 AM",
+      "config": {
+        "colWidth": 4.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ciframe\nwidth\u003d\"100%\" height\u003d\"520\" frameborder\u003d\"0\" src\u003d\"https://juliettm.carto.com/viz/f1bd2cbc-1924-11e7-ac6f-0ee66e2c9693/embed_map\" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen\u003e\n\u003c/iframe\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1491305171984_2128501790",
+      "id": "20170404-132611_1272122731",
+      "dateCreated": "Apr 4, 2017 1:26:11 PM",
+      "dateStarted": "Apr 5, 2017 10:47:53 AM",
+      "dateFinished": "Apr 5, 2017 10:47:53 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n# Online service revenue by center.\nThe online reservation service revenue represent the 25% of the cost of the services delivered by the center.\nThis figure represents the gross income to the online business.",
+      "user": "anonymous",
+      "dateUpdated": "Apr 5, 2017 11:23:23 AM",
+      "config": {
+        "colWidth": 8.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "text",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/text",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eOnline service revenue by center.\u003c/h1\u003e\n\u003cp\u003eThe online reservation service revenue represent the 25% of the cost of the services delivered by the center.\u003cbr/\u003eThis figure represents the gross income to the online business.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1491379264235_2015009766",
+      "id": "20170405-100104_1329031133",
+      "dateCreated": "Apr 5, 2017 10:01:04 AM",
+      "dateStarted": "Apr 5, 2017 11:23:19 AM",
+      "dateFinished": "Apr 5, 2017 11:23:19 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Earnings by month",
+      "text": "%jdbc\nselect \ncenter,\nto_char(dateorder, \u0027YYYY-MM\u0027) as MonthYear, \nsum(price)* 0.25 as earn\nfrom orders\nwhere status \u003d \u0027OK\u0027\ngroup by center, MonthYear\norder by center, MonthYear\n",
+      "user": "anonymous",
+      "dateUpdated": "Apr 5, 2017 10:28:16 AM",
+      "config": {
+        "colWidth": 8.0,
+        "enabled": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "lineChart",
+              "height": 300.0,
+              "optionOpen": false,
+              "setting": {
+                "lineChart": {}
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "monthyear",
+                  "index": 1.0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [
+                {
+                  "name": "center",
+                  "index": 0.0,
+                  "aggr": "sum"
+                }
+              ],
+              "values": [
+                {
+                  "name": "earn",
+                  "index": 2.0,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/sql",
+        "title": true,
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "center\tmonthyear\tearn\nC1\t2015-12\t111.75\nC1\t2016-01\t70.25\nC1\t2016-02\t107.25\nC1\t2016-03\t98.25\nC1\t2016-04\t166.50\nC1\t2016-05\t176.50\nC1\t2016-06\t97.00\nC1\t2016-07\t102.00\nC1\t2016-08\t112.25\nC1\t2016-09\t153.75\nC1\t2016-10\t175.75\nC1\t2016-11\t210.00\nC2\t2015-12\t76.25\nC2\t2016-01\t45.75\nC2\t2016-02\t96.25\nC2\t2016-03\t57.25\nC2\t2016-04\t155.75\nC2\t2016-05\t136.75\nC2\t2016-06\t74.25\nC2\t2016-07\t66.00\nC2\t2016-08\t70.75\nC2\t2016-09\t120.25\nC2\t2016-10\t146.00\nC2\t2016-11\t153.50\nC3\t2015-12\t51.25\nC3\t2016-01\t59.75\nC3\t2016-02\t86.75\nC3\t2016-03\t57.00\nC3\t2016-04\t167.50\nC3\t2016-05\t134.75\nC3\t2016-06\t58.00\nC3\t2016-07\t50.00\nC3\t2016-08\t54.00\nC3\t2016-09\t160.25\nC3\t2016-10\t146.00\nC3\t2016-11\t132.50\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1490864402476_-549619197",
+      "id": "20170330-110002_1344134478",
+      "dateCreated": "Mar 30, 2017 11:00:02 AM",
+      "dateStarted": "Apr 5, 2017 10:28:10 AM",
+      "dateFinished": "Apr 5, 2017 10:28:11 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Total revenue by type of service",
+      "text": "%jdbc\nselect \ncenter,\nto_char(dateorder, \u0027YYYY-MM\u0027) as MonthYear, \nproduct,\nsum(price) * 0.25 as earn,\ncount(*) as numServices\nfrom orders\nwhere status \u003d \u0027OK\u0027\ngroup by center, MonthYear, product\norder by center, MonthYear, product\n",
+      "user": "anonymous",
+      "dateUpdated": "Apr 5, 2017 10:40:27 AM",
+      "config": {
+        "colWidth": 8.0,
+        "enabled": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "multiBarChart",
+              "height": 300.0,
+              "optionOpen": false,
+              "setting": {
+                "multiBarChart": {}
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "center",
+                  "index": 0.0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [
+                {
+                  "name": "product",
+                  "index": 2.0,
+                  "aggr": "sum"
+                }
+              ],
+              "values": [
+                {
+                  "name": "earn",
+                  "index": 3.0,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/sql",
+        "editorHide": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "center\tmonthyear\tproduct\tearn\tnumservices\nC1\t2015-12\tEyebrows\t38.00\t7\nC1\t2015-12\tEyelashes\t22.50\t4\nC1\t2015-12\tHair\t22.25\t4\nC1\t2015-12\tMassage\t17.75\t4\nC1\t2015-12\tNails\t11.25\t4\nC1\t2016-01\tEyebrows\t17.75\t4\nC1\t2016-01\tEyelashes\t26.00\t6\nC1\t2016-01\tHair\t22.50\t6\nC1\t2016-01\tNails\t4.00\t1\nC1\t2016-02\tEyebrows\t14.25\t3\nC1\t2016-02\tEyelashes\t4.25\t2\nC1\t2016-02\tHair\t23.25\t4\nC1\t2016-02\tMassage\t19.00\t6\nC1\t2016-02\tNails\t46.50\t7\nC1\t2016-03\tEyebrows\t16.25\t3\nC1\t2016-03\tEyelashes\t15.00\t5\nC1\t2016-03\tHair\t20.75\t6\nC1\t2016-03\tMassage\t19.25\t4\nC1\t2016-03\tNails\t27.00\t6\nC1\t2016-04\tEyebrows\t46.75\t10\nC1\t2016-04\tEyelashes\t23.25\t5\nC1\t2016-04\tHair\t35.75\t7\nC1\t2016-04\tMassage\t22.75\t5\nC1\t2016-04\tNails\t38.00\t8\nC1\t2016-05\tEyebrows\t39.75\t9\nC1\t2016-05\tEyelashes\t42.50\t9\nC1\t2016-05\tHair\t28.50\t7\nC1\t2016-05\tMassage\t32.25\t7\nC1\t2016-05\tNails\t33.50\t7\nC1\t2016-06\tEyebrows\t17.75\t4\nC1\t2016-06\tEyelashes\t22.75\t5\nC1\t2016-06\tHair\t24.75\t6\nC1\t2016-06\tMassage\t19.00\t4\nC1\t2016-06\tNails\t12.75\t4\nC1\t2016-07\tEyebrows\t11.50\t2\nC1\t2016-07\tEyelashes\t15.75\t3\nC1\t2016-07\tHair\t13.75\t3\nC1\t2016-07\tMassage\t30.50\t7\nC1\t2016-07\tNails\t30.50\t7\nC1\t2016-08\tEyebrows\t13.75\t3\nC1\t2016-08\tEyelashes\t30.75\t7\nC1\t2016-08\tHair\t32.25\t7\nC1\t2016-08\tMassage\t18.50\t4\nC1\t2016-08\tNails\t17.00\t3\nC1\t2016-09\tEyebrows\t26.00\t5\nC1\t2016-09\tEyelashes\t25.25\t7\nC1\t2016-09\tHair\t36.00\t7\nC1\t2016-09\tMassage\t31.75\t7\nC1\t2016-09\tNails\t34.75\t8\nC1\t2016-10\tEyebrows\t35.25\t10\nC1\t2016-10\tEyelashes\t40.75\t8\nC1\t2016-10\tHair\t47.50\t10\nC1\t2016-10\tMassage\t23.25\t7\nC1\t2016-10\tNails\t29.00\t7\nC1\t2016-11\tEyebrows\t37.75\t8\nC1\t2016-11\tEyelashes\t45.25\t9\nC1\t2016-11\tHair\t36.00\t7\nC1\t2016-11\tMassage\t49.25\t11\nC1\t2016-11\tNails\t41.75\t8\nC2\t2015-12\tEyebrows\t20.50\t4\nC2\t2015-12\tEyelashes\t9.00\t3\nC2\t2015-12\tHair\t18.25\t3\nC2\t2015-12\tMassage\t9.25\t2\nC2\t2015-12\tNails\t19.25\t4\nC2\t2016-01\tEyebrows\t11.00\t3\nC2\t2016-01\tEyelashes\t12.75\t3\nC2\t2016-01\tMassage\t13.00\t3\nC2\t2016-01\tNails\t9.00\t2\nC2\t2016-02\tEyebrows\t15.00\t3\nC2\t2016-02\tEyelashes\t15.50\t3\nC2\t2016-02\tHair\t35.75\t6\nC2\t2016-02\tMassage\t16.00\t3\nC2\t2016-02\tNails\t14.00\t2\nC2\t2016-03\tEyebrows\t12.50\t2\nC2\t2016-03\tEyelashes\t14.25\t3\nC2\t2016-03\tHair\t19.25\t3\nC2\t2016-03\tMassage\t6.50\t2\nC2\t2016-03\tNails\t4.75\t1\nC2\t2016-04\tEyebrows\t34.25\t8\nC2\t2016-04\tEyelashes\t46.75\t9\nC2\t2016-04\tHair\t24.00\t6\nC2\t2016-04\tMassage\t26.00\t5\nC2\t2016-04\tNails\t24.75\t4\nC2\t2016-05\tEyebrows\t21.75\t6\nC2\t2016-05\tEyelashes\t28.25\t6\nC2\t2016-05\tHair\t31.50\t7\nC2\t2016-05\tMassage\t31.25\t7\nC2\t2016-05\tNails\t24.00\t5\nC2\t2016-06\tEyebrows\t27.25\t5\nC2\t2016-06\tEyelashes\t8.50\t2\nC2\t2016-06\tHair\t5.50\t2\nC2\t2016-06\tMassage\t17.75\t3\nC2\t2016-06\tNails\t15.25\t3\nC2\t2016-07\tEyebrows\t18.50\t3\nC2\t2016-07\tEyelashes\t17.00\t4\nC2\t2016-07\tHair\t19.00\t4\nC2\t2016-07\tMassage\t5.25\t2\nC2\t2016-07\tNails\t6.25\t2\nC2\t2016-08\tEyebrows\t19.00\t4\nC2\t2016-08\tEyelashes\t20.25\t4\nC2\t2016-08\tHair\t22.25\t5\nC2\t2016-08\tNails\t9.25\t2\nC2\t2016-09\tEyebrows\t10.25\t2\nC2\t2016-09\tEyelashes\t25.75\t6\nC2\t2016-09\tHair\t37.50\t8\nC2\t2016-09\tMassage\t26.75\t6\nC2\t2016-09\tNails\t20.00\t3\nC2\t2016-10\tEyebrows\t30.75\t6\nC2\t2016-10\tEyelashes\t30.25\t7\nC2\t2016-10\tHair\t26.25\t5\nC2\t2016-10\tMassage\t24.25\t4\nC2\t2016-10\tNails\t34.50\t7\nC2\t2016-11\tEyebrows\t31.00\t8\nC2\t2016-11\tEyelashes\t30.00\t6\nC2\t2016-11\tHair\t29.00\t5\nC2\t2016-11\tMassage\t43.75\t10\nC2\t2016-11\tNails\t19.75\t5\nC3\t2015-12\tEyebrows\t8.25\t2\nC3\t2015-12\tEyelashes\t15.50\t3\nC3\t2015-12\tHair\t16.50\t4\nC3\t2015-12\tMassage\t11.00\t3\nC3\t2016-01\tEyebrows\t16.75\t3\nC3\t2016-01\tEyelashes\t12.50\t3\nC3\t2016-01\tHair\t5.25\t2\nC3\t2016-01\tMassage\t2.75\t1\nC3\t2016-01\tNails\t22.50\t4\nC3\t2016-02\tEyebrows\t20.75\t5\nC3\t2016-02\tEyelashes\t7.75\t2\nC3\t2016-02\tHair\t19.50\t5\nC3\t2016-02\tMassage\t20.25\t4\nC3\t2016-02\tNails\t18.50\t5\nC3\t2016-03\tEyebrows\t12.50\t2\nC3\t2016-03\tEyelashes\t7.75\t3\nC3\t2016-03\tHair\t9.75\t3\nC3\t2016-03\tMassage\t12.50\t3\nC3\t2016-03\tNails\t14.50\t4\nC3\t2016-04\tEyebrows\t60.75\t11\nC3\t2016-04\tEyelashes\t25.50\t6\nC3\t2016-04\tHair\t25.50\t6\nC3\t2016-04\tMassage\t22.75\t5\nC3\t2016-04\tNails\t33.00\t7\nC3\t2016-05\tEyebrows\t15.50\t3\nC3\t2016-05\tEyelashes\t33.00\t7\nC3\t2016-05\tHair\t39.50\t8\nC3\t2016-05\tMassage\t18.50\t4\nC3\t2016-05\tNails\t28.25\t6\nC3\t2016-06\tEyebrows\t21.25\t5\nC3\t2016-06\tEyelashes\t5.25\t2\nC3\t2016-06\tHair\t12.75\t2\nC3\t2016-06\tMassage\t8.25\t2\nC3\t2016-06\tNails\t10.50\t2\nC3\t2016-07\tEyebrows\t13.25\t4\nC3\t2016-07\tEyelashes\t3.00\t1\nC3\t2016-07\tHair\t25.75\t5\nC3\t2016-07\tMassage\t2.25\t1\nC3\t2016-07\tNails\t5.75\t1\nC3\t2016-08\tEyebrows\t13.25\t2\nC3\t2016-08\tEyelashes\t16.25\t3\nC3\t2016-08\tHair\t7.25\t3\nC3\t2016-08\tMassage\t4.00\t1\nC3\t2016-08\tNails\t13.25\t3\nC3\t2016-09\tEyebrows\t30.50\t9\nC3\t2016-09\tEyelashes\t22.75\t5\nC3\t2016-09\tHair\t48.75\t9\nC3\t2016-09\tMassage\t33.50\t7\nC3\t2016-09\tNails\t24.75\t5\nC3\t2016-10\tEyebrows\t28.00\t5\nC3\t2016-10\tEyelashes\t27.75\t5\nC3\t2016-10\tHair\t27.75\t6\nC3\t2016-10\tMassage\t36.75\t7\nC3\t2016-10\tNails\t25.75\t5\nC3\t2016-11\tEyebrows\t25.00\t6\nC3\t2016-11\tEyelashes\t25.25\t6\nC3\t2016-11\tHair\t22.25\t6\nC3\t2016-11\tMassage\t36.50\t7\nC3\t2016-11\tNails\t23.50\t6\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1491379606931_830659062",
+      "id": "20170405-100646_338011461",
+      "dateCreated": "Apr 5, 2017 10:06:46 AM",
+      "dateStarted": "Apr 5, 2017 10:31:52 AM",
+      "dateFinished": "Apr 5, 2017 10:31:53 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Revenue by service and number of services done",
+      "text": "%jdbc\nselect \nproduct,\nsum(price)*0.25 as earn,\ncount(*) as numServices\nfrom orders\nwhere status \u003d \u0027OK\u0027\ngroup by product\n",
+      "user": "anonymous",
+      "dateUpdated": "Apr 5, 2017 10:46:20 AM",
+      "config": {
+        "colWidth": 4.0,
+        "enabled": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": true,
+              "setting": {
+                "pieChart": {}
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "product",
+                  "index": 0.0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "numservices",
+                  "index": 2.0,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/sql",
+        "editorHide": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "product\tearn\tnumservices\nEyebrows\t832.25\t179\nMassage\t712.00\t158\nHair\t872.00\t187\nEyelashes\t774.50\t172\nNails\t747.00\t158\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1491381031064_-197956994",
+      "id": "20170405-103031_1230213357",
+      "dateCreated": "Apr 5, 2017 10:30:31 AM",
+      "dateStarted": "Apr 5, 2017 10:42:55 AM",
+      "dateFinished": "Apr 5, 2017 10:42:55 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%jdbc\n",
+      "user": "anonymous",
+      "dateUpdated": "Apr 5, 2017 10:42:43 AM",
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1491381763053_646060023",
+      "id": "20170405-104243_266691200",
+      "dateCreated": "Apr 5, 2017 10:42:43 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Dashboard",
+  "id": "2CC8KBNXE",
+  "angularObjects": {
+    "2CBF2QYHY:shared_process": [],
+    "2CEHZHBPJ:shared_process": [],
+    "2CD9EGWZR:shared_process": [],
+    "2CEBE5YXV:shared_process": [],
+    "2CCGSDHNG:shared_process": [],
+    "2CC46A3SN:shared_process": [],
+    "2CDMZKD8G:shared_process": [],
+    "2CDEGXS9K:shared_process": [],
+    "2CEFENF3Y:shared_process": [],
+    "2CD6PFY55:shared_process": [],
+    "2CBDRET1Y:shared_process": [],
+    "2CC7543MA:shared_process": [],
+    "2CEC6VJ5N:shared_process": [],
+    "2CERTGAAK:shared_process": [],
+    "2CCAT22D9:shared_process": [],
+    "2CBHSWUYA:shared_process": [],
+    "2CCPUT862:shared_process": [],
+    "2CD5QDZZ1:shared_process": [],
+    "2CCPPSYT6:shared_process": []
+  },
+  "config": {},
+  "info": {}
+}
