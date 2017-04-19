@@ -1,9 +1,9 @@
 {
   "paragraphs": [
     {
-      "text": "%md\n# Online reservation service\nThis Zeppelin notebook is a sample dashboard only using %jdbc and %md. The data used is from a fake \"online reservation service\" that allows customers to make reservations of beauty services in several centers.\nThe aim of this notebook is not to analyze the data but show the potential of Zeppelin to make dashboards, even when Zeppeling has only a few basic graphics it\u0027s a good choice to small business.\nThe map is imported from [Carto](https://juliettm.carto.com/dashboard).",
+      "text": "%md\n# Online reservation service\nThis Zeppelin notebook is a sample dashboard only using %jdbc and %md. The data used is from a fake \"online reservation service\" that allows customers to make reservations of beauty services in several centers.\nThe aim of this notebook is not to analyze the data but show the potential of Zeppelin to create dashboards.\nThe map is imported from [Carto](https://juliettm.carto.com/dashboard).",
       "user": "anonymous",
-      "dateUpdated": "Apr 5, 2017 11:21:13 AM",
+      "dateUpdated": "Apr 19, 2017 11:19:14 AM",
       "config": {
         "colWidth": 12.0,
         "enabled": true,
@@ -25,7 +25,7 @@
         "msg": [
           {
             "type": "HTML",
-            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eOnline reservation service\u003c/h1\u003e\n\u003cp\u003eThis Zeppelin notebook is a sample dashboard only using %jdbc and %md. The data used is from a fake \u0026ldquo;online reservation service\u0026rdquo; that allows customers to make reservations of beauty services in several centers.\u003cbr/\u003eThe aim of this notebook is not to analyze the data but show the potential of Zeppelin to make dashboards, even when Zeppeling has only a few basic graphics it\u0026rsquo;s a good choice to small business.\u003cbr/\u003eThe map is imported from \u003ca href\u003d\"https://juliettm.carto.com/dashboard\"\u003eCarto\u003c/a\u003e.\u003c/p\u003e\n\u003c/div\u003e"
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eOnline reservation service\u003c/h1\u003e\n\u003cp\u003eThis Zeppelin notebook is a sample dashboard only using %jdbc and %md. The data used is from a fake \u0026ldquo;online reservation service\u0026rdquo; that allows customers to make reservations of beauty services in several centers.\u003cbr/\u003eThe aim of this notebook is not to analyze the data but show the potential of Zeppelin to create dashboards.\u003cbr/\u003eThe map is imported from \u003ca href\u003d\"https://juliettm.carto.com/dashboard\"\u003eCarto\u003c/a\u003e.\u003c/p\u003e\n\u003c/div\u003e"
           }
         ]
       },
@@ -33,8 +33,8 @@
       "jobName": "paragraph_1491380161201_-560010642",
       "id": "20170405-101601_1228514088",
       "dateCreated": "Apr 5, 2017 10:16:01 AM",
-      "dateStarted": "Apr 5, 2017 11:21:13 AM",
-      "dateFinished": "Apr 5, 2017 11:21:13 AM",
+      "dateStarted": "Apr 19, 2017 11:19:14 AM",
+      "dateFinished": "Apr 19, 2017 11:19:20 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -77,19 +77,20 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%md\n# Online service revenue by center.\nThe online reservation service revenue represent the 25% of the cost of the services delivered by the center.\nThis figure represents the gross income to the online business.",
+      "text": "%md\n# Online service revenue by center\nThe online reservation service revenue represent the 25% of the cost of the services delivered by the center.\nThis figure represents the gross income to the online business.",
       "user": "anonymous",
-      "dateUpdated": "Apr 5, 2017 11:23:23 AM",
+      "dateUpdated": "Apr 19, 2017 11:19:49 AM",
       "config": {
         "colWidth": 8.0,
         "enabled": true,
         "results": {},
         "editorSetting": {
-          "language": "text",
-          "editOnDblClick": false
+          "language": "markdown",
+          "editOnDblClick": true
         },
-        "editorMode": "ace/mode/text",
-        "editorHide": true
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "tableHide": false
       },
       "settings": {
         "params": {},
@@ -100,7 +101,7 @@
         "msg": [
           {
             "type": "HTML",
-            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eOnline service revenue by center.\u003c/h1\u003e\n\u003cp\u003eThe online reservation service revenue represent the 25% of the cost of the services delivered by the center.\u003cbr/\u003eThis figure represents the gross income to the online business.\u003c/p\u003e\n\u003c/div\u003e"
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eOnline service revenue by center\u003c/h1\u003e\n\u003cp\u003eThe online reservation service revenue represent the 25% of the cost of the services delivered by the center.\u003cbr/\u003eThis figure represents the gross income to the online business.\u003c/p\u003e\n\u003c/div\u003e"
           }
         ]
       },
@@ -108,8 +109,8 @@
       "jobName": "paragraph_1491379264235_2015009766",
       "id": "20170405-100104_1329031133",
       "dateCreated": "Apr 5, 2017 10:01:04 AM",
-      "dateStarted": "Apr 5, 2017 11:23:19 AM",
-      "dateFinished": "Apr 5, 2017 11:23:19 AM",
+      "dateStarted": "Apr 19, 2017 11:19:49 AM",
+      "dateFinished": "Apr 19, 2017 11:19:49 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
